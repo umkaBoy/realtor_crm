@@ -160,6 +160,7 @@ class ComplexAdmin(ModelAdmin):
     ]
     inlines = (
         LinkInlineAdmin,
+        ImageInlineAdmin,
         DocumentInlineAdmin,
         ContactsInlineAdmin,
     )

@@ -1,5 +1,5 @@
 from django.db import models
-from crm.utils.base import documents_upload_path
+from crm.utils.base import documents_upload_path, images_upload_path
 from crm.consts import *
 import os
 import datetime
@@ -75,7 +75,7 @@ class Contacts(models.Model):
 class Link(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     link = models.CharField(verbose_name='Ссылка', max_length=128, null=False, blank=True, default='')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=False, on_delete=models.DO_NOTHING)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Ссылка'
@@ -92,7 +92,7 @@ class Document(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     file = models.FileField(upload_to=documents_upload_path, max_length=512, verbose_name='Файл')
     type = models.CharField(max_length=64, choices=DOCUMENT_TYPES, verbose_name='Тип документа')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=False, on_delete=models.DO_NOTHING)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Документ'
@@ -119,5 +119,37 @@ class Document(models.Model):
             return datetime.datetime.utcfromtimestamp(statbuf.st_ctime).date()
         return ''
 
-    get_created_at.fget.short_description = u'Дата'
+    get_created_at.fget.short_description = u'Дата загрузки'
 
+
+
+class Image(models.Model):
+    image = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='Изображение')
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
+
+    def __str__(self):
+        return 'image_' + str(self.id)
+
+
+    @property
+    def get_size(self):
+        if os.path.exists(self.image.path):
+            return "%0.1f KB" % (os.path.getsize(self.image.path) / (1024.0))
+        return "0 MB"
+
+    get_size.fget.short_description = u'Размер'
+
+
+    @property
+    def get_created_at(self):
+        if self.image:
+            statbuf = os.stat(self.image.path)
+            return datetime.datetime.utcfromtimestamp(statbuf.st_ctime).date()
+        return ''
+
+    get_created_at.fget.short_description = u'Дата загрузки'

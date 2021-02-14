@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.html import mark_safe
+from crm.utils.base import images_upload_path
 
 
 class Complex(models.Model):
@@ -97,7 +98,7 @@ class Floor(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=False, verbose_name='Дата изменения')
 
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
-    plan = models.ImageField(upload_to='images/plans/', blank=True, null=True, verbose_name='Планировка')
+    plan = models.ImageField(upload_to=images_upload_path, blank=True, null=True, verbose_name='Планировка')
 
     class Meta:
         verbose_name = 'Этаж'
@@ -112,7 +113,6 @@ class Floor(models.Model):
         return 'Изображение отсутствует'
 
     image_tag.short_description = 'Image'
-    # image_tag.allow_tags = True
 
 
 class Layout(models.Model):
