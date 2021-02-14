@@ -48,7 +48,7 @@ class Plan(models.Model):
                                    blank=False, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False, verbose_name='Дата изменения')
     plan = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='План')
-    plan_floor = models.ForeignKey('crm.Floor', verbose_name='Планировка этажа', related_name='floors', null=True, on_delete=models.DO_NOTHING)
+    plan_floor = models.ForeignKey('crm.Floor', verbose_name='Планировка этажа', related_name='floors', null=True, blank=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'План помещения'
