@@ -62,6 +62,7 @@ class Contacts(models.Model):
                                  blank=True, null=True)
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='contacts',
                                   on_delete=models.DO_NOTHING, blank=True, null=True)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Контакт'
@@ -76,6 +77,7 @@ class Link(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     link = models.CharField(verbose_name='Ссылка', max_length=128, null=False, blank=True, default='')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Ссылка'
@@ -93,6 +95,7 @@ class Document(models.Model):
     file = models.FileField(upload_to=documents_upload_path, max_length=512, verbose_name='Файл')
     type = models.CharField(max_length=64, choices=DOCUMENT_TYPES, verbose_name='Тип документа')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Документ'
@@ -126,6 +129,7 @@ class Document(models.Model):
 class Image(models.Model):
     image = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='Изображение')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Изображение'
@@ -147,7 +151,7 @@ class Image(models.Model):
 
     @property
     def get_created_at(self):
-        if self.image:
+        if os.path.exists(self.image.path):
             statbuf = os.stat(self.image.path)
             return datetime.datetime.utcfromtimestamp(statbuf.st_ctime).date()
         return ''

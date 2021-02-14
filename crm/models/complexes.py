@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.html import mark_safe
 from crm.utils.base import images_upload_path
+from crm.consts import TRIM_TYPES
 
 
 class Complex(models.Model):
@@ -28,7 +29,7 @@ class Complex(models.Model):
     infrastructure = models.TextField(verbose_name='Инфраструктура', blank=True, null=False, default='', max_length=2048)
     transport_accessibility = models.TextField(verbose_name='Транспортная доступность', blank=True, null=False, default='', max_length=2048)
     # детали
-    trim = models.CharField(verbose_name='Отделка', blank=True, null=False, max_length=128, default='')
+    trim = models.CharField(verbose_name='Отделка', blank=True, null=False, max_length=128, choices=TRIM_TYPES)
     facade = models.CharField(verbose_name='Фасад', blank=True, null=False, max_length=128, default='')
     elevators = models.CharField(verbose_name='Лифты', blank=True, null=False, max_length=128, default='')
     windows = models.CharField(verbose_name='Окна', blank=True, null=False, max_length=128, default='')
@@ -101,8 +102,8 @@ class Floor(models.Model):
     plan = models.ImageField(upload_to=images_upload_path, blank=True, null=True, verbose_name='Планировка')
 
     class Meta:
-        verbose_name = 'Этаж'
-        verbose_name_plural = 'Этажи'
+        verbose_name = 'План этажа'
+        verbose_name_plural = 'Планы этажей'
 
     def __str__(self):
         return self.name or 'Планировка этажа №{0}'.format(self.id)
@@ -116,15 +117,16 @@ class Floor(models.Model):
 
 
 class Layout(models.Model):
-    corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=False, blank=False, on_delete=models.CASCADE)
+    corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=True, blank=True, on_delete=models.CASCADE)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
     floor_from = models.IntegerField(verbose_name='Этаж с', null=False, blank=False, default=0)
     floor_to = models.IntegerField(verbose_name='Этаж по', null=False, blank=False, default=0)
     floor = models.ForeignKey('crm.Floor', verbose_name='Планировка эатажа', null=False, blank=False, on_delete=models.CASCADE)
 
 
     class Meta:
-        verbose_name = 'Планировка'
-        verbose_name_plural = 'Планировки'
+        verbose_name = 'План этажа'
+        verbose_name_plural = 'Планы этажей'
 
     def __str__(self):
         return 'Планировка в {0}'.format(self.corp)
