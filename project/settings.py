@@ -104,13 +104,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# BUILD_DIR = os.path.join(BASE_DIR, 'etf', 'templates')
+BUILD_DIR = os.path.join(BASE_DIR, 'crm', 'templates')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'crm/static/')
+    os.path.join(BASE_DIR, 'crm/static/crm/dist')
 ]
 
 STATICFILES_FINDERS = [
