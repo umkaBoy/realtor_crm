@@ -5,6 +5,7 @@ import os
 import datetime
 
 
+
 class Region(models.Model):
     name = models.CharField(verbose_name='Название региона', blank=False, null=False, max_length=128)
 

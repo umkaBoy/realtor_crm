@@ -4,10 +4,12 @@ from django.contrib.admin.models import LogEntry
 from crm.admin.inline import *
 
 
+
 @register(users.UserProfile)
 class ProfileAdmin(ModelAdmin):
     fields = ['user', 'phone']
     list_display = (
+        'id',
         '__str__',
         'user',
         'phone',
@@ -24,6 +26,7 @@ class ProfileAdmin(ModelAdmin):
 @register(LogEntry)
 class LogEntryAdmin(ModelAdmin):
     list_display = (
+        'id',
         'content_type',
         'object_repr',
         'user',
@@ -79,6 +82,7 @@ class LogEntryAdmin(ModelAdmin):
 @register(developers.Developer)
 class DeveloperAdmin(ModelAdmin):
     list_display = (
+        'id',
         '__str__',
         'updated_by',
         'updated_at',
@@ -150,6 +154,7 @@ class ObjectClassAdmin(ModelAdmin):
 @register(complexes.Complex)
 class ComplexAdmin(ModelAdmin):
     list_display = (
+        'id',
         '__str__',
         'updated_by',
         'updated_at',
@@ -234,9 +239,11 @@ class ComplexAdmin(ModelAdmin):
 @register(complexes.Floor)
 class FloorAdmin(ModelAdmin):
     list_display = (
+        'id',
         '__str__',
         'updated_by',
         'updated_at',
+        'image_tag'
     )
     readonly_fields = ['updated_by', 'updated_at', 'image_tag']
     search_fields = [
@@ -268,6 +275,7 @@ class FloorAdmin(ModelAdmin):
 @register(complexes.Corp)
 class CorpAdmin(ModelAdmin):
     list_display = (
+        'id',
         '__str__',
         'updated_by',
         'updated_at',
@@ -307,9 +315,9 @@ class CorpAdmin(ModelAdmin):
 
 
 
-@register(lots.Lot)
 class LotAdmin(ModelAdmin):
     list_display = (
+        'id',
         '__str__',
         'updated_by',
         'updated_at',
@@ -326,6 +334,49 @@ class LotAdmin(ModelAdmin):
     )
 
 
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
+
+@register(lots.Plan)
+class PlanAdmin(ModelAdmin):
+    list_display = (
+        'id',
+        '__str__',
+        'updated_by',
+        'updated_at',
+    )
+    readonly_fields = ['updated_by', 'updated_at', 'image_tag']
+    search_fields = [
+        '__all__'
+    ]
+
+    def get_fieldsets(self, request, obj=None):
+        full_fieldsets = [
+            ('Информация по этажу', {'fields': (
+                'name',
+                'plan_floor',
+                'plan',
+                'image_tag'
+            )}),
+            ('Административная информация', {'fields': (
+                'updated_at',
+                'updated_by'
+            )})
+        ]
+        self.fieldsets = full_fieldsets
+        return super().get_fieldsets(request, obj)
+
+
+    def save_model(self, request, obj, form, change):
+        obj.updated_by = request.user
+        return super().save_model(request, obj, form, change)
+
+
+@register(lots.NewBuildingLot)
+class NewBuildingLotAdmin(LotAdmin):
     def get_fieldsets(self, request, obj=None):
         full_fieldsets = [
             ('Общая информация', {'fields': (
@@ -358,31 +409,30 @@ class LotAdmin(ModelAdmin):
         return super().get_fieldsets(request, obj)
 
 
-    def save_model(self, request, obj, form, change):
-        obj.updated_by = request.user
-        return super().save_model(request, obj, form, change)
-
-
-
-@register(lots.Plan)
-class PlanAdmin(ModelAdmin):
-    list_display = (
-        '__str__',
-        'updated_by',
-        'updated_at',
-    )
-    readonly_fields = ['updated_by', 'updated_at', 'image_tag']
-    search_fields = [
-        '__all__'
-    ]
-
+@register(lots.OldBuildingLot)
+class OldBuildingLotAdmin(LotAdmin):
     def get_fieldsets(self, request, obj=None):
         full_fieldsets = [
-            ('Информация по этажу', {'fields': (
+            ('Общая информация', {'fields': (
                 'name',
-                'plan_floor',
-                'plan',
-                'image_tag'
+                'status',
+                'complex',
+                'lease',
+            )}),
+            ('Информация по лоту', {'fields': (
+                'n_on_price',
+                'type_object',
+                'corp',
+                'floor',
+                's',
+                'trim',
+                'view_from_windows',
+                'options',
+                'reward',
+                'currency',
+                'price',
+                'comment',
+                'plan'
             )}),
             ('Административная информация', {'fields': (
                 'updated_at',
@@ -391,8 +441,3 @@ class PlanAdmin(ModelAdmin):
         ]
         self.fieldsets = full_fieldsets
         return super().get_fieldsets(request, obj)
-
-
-    def save_model(self, request, obj, form, change):
-        obj.updated_by = request.user
-        return super().save_model(request, obj, form, change)

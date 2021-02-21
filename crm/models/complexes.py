@@ -86,7 +86,7 @@ class Corp(models.Model):
 
     class Meta:
         verbose_name = 'Корпус'
-        verbose_name_plural = 'Корпусы'
+        verbose_name_plural = 'Корпуса'
 
     def __str__(self):
         return self.name or self.complex

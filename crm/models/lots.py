@@ -14,12 +14,9 @@ class Lot(models.Model):
 
     name = models.CharField(verbose_name='Наименование', blank=False, null=False, max_length=128, default='')
     status = models.CharField(verbose_name='Статус', choices=LOT_STATUSES, blank=False, null=False, max_length=128, default='Свободно')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
-    lease = models.CharField(verbose_name='Сдача', null=False, blank=True, default='', max_length=128)
     # Лот
     n_on_price = models.CharField(verbose_name='№ по прайсу', null=False, blank=True, default='', max_length=64)
     type_object = models.ForeignKey('crm.PremisesType', verbose_name='Тип объекта', null=True, on_delete=models.SET_NULL)
-    corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=True, blank=True, on_delete=models.CASCADE)
     floor = models.IntegerField(verbose_name='Этаж', blank=True, null=False, default=0)
     s = models.FloatField(verbose_name='Площадь', null=False, blank=False, default=0)
     trim = models.CharField(verbose_name='Отделка', choices=TRIM_TYPES, null=False, blank=False, max_length=32)
@@ -30,11 +27,6 @@ class Lot(models.Model):
     price = models.FloatField(verbose_name='Цена в руб.', null=False, blank=False, default=0)
     plan = models.ForeignKey('crm.Plan', verbose_name='План помещения', null=True, on_delete=models.DO_NOTHING)
     comment = models.TextField(verbose_name='Комментарий', null=False, blank=True, default='')
-
-    class Meta:
-        verbose_name = 'Лот'
-        verbose_name_plural = 'Лоты'
-        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -82,3 +74,23 @@ class Plan(models.Model):
     image_tag.short_description = 'Image'
 
 
+
+class NewBuildingLot(Lot):
+    corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=False, blank=True, on_delete=models.CASCADE)
+    lease = models.CharField(verbose_name='Сдача', null=False, blank=True, default='', max_length=128)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Новостройка'
+        verbose_name_plural = 'Новостройки'
+
+
+
+class OldBuildingLot(Lot):
+    corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=True, blank=True, on_delete=models.CASCADE)
+    lease = models.CharField(verbose_name='Сдача', null=False, blank=True, default='', max_length=128)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Вторичка'
+        verbose_name_plural = 'Вторички'
