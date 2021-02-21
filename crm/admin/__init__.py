@@ -122,6 +122,7 @@ class DeveloperAdmin(ModelAdmin):
 @register(base.Region)
 class RegionAdmin(ModelAdmin):
     fields = ['name']
+    list_display = ['name']
     search_fields = [
         'name'
     ]
