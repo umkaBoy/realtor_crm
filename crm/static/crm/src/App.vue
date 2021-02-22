@@ -10,6 +10,7 @@
     ></v-progress-linear>
     <fc-menu>
     </fc-menu>
+    <router-view></router-view>
     <alerts>
     </alerts>
   </v-app>
@@ -37,4 +38,14 @@ export default {
   width: 100vw;
   min-height: 100vh;
 }
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+::-webkit-scrollbar-track {border-radius: 4px;}
+::-webkit-scrollbar {width: 6px;}
+::-webkit-scrollbar-thumb {border-radius: 4px;background: #f0f2f5;}
+:hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
 </style>

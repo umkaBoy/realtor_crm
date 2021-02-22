@@ -1,5 +1,6 @@
 <template>
   <v-navigation-drawer
+    style="z-index: 1000"
     permanent
     expand-on-hover
     color="secondary"
@@ -10,30 +11,52 @@
           <v-img src="https://png.pngtree.com/template/20191014/ourmid/pngtree-home-or-house-roof-logo-design-template-with-water-wave-image_317799.jpg"></v-img>
         </v-list-item-avatar>
       </v-list-item>
-      <v-list-item link>
+      <v-list-item link to="profile">
         <v-list-item-content>
           <v-list-item-title class="title">
             {{ username || '¯\\_(ツ)_/¯' }}
           </v-list-item-title>
-          <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+          <v-list-item-subtitle class="primary--text">{{ user.email }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>
     <v-divider></v-divider>
+    <v-list
+      nav
+      dense>
+      <v-list-item link to="/">
+        <v-list-item-icon>
+          <v-icon color="primary">{{ icons.mdiFloorPlan }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Лоты</v-list-item-title>
+      </v-list-item>
+      <v-list-item link>
+        <v-list-item-icon>
+          <v-icon color="primary">{{ icons.mdiDomain }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>ЖК</v-list-item-title>
+      </v-list-item>
+      <v-list-item link>
+        <v-list-item-icon>
+          <v-icon color="primary">{{ icons.mdiAccountHardHat }}</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Застройщики</v-list-item-title>
+      </v-list-item>
+    </v-list>
     <template v-slot:append>
       <div class="pa-2">
         <v-list
           nav
           dense>
-          <v-list-item link href="/admin" v-if="user && user.is_superuser">
+          <v-list-item link href="/admin" v-if="user && user.is_superuser" target="_blank">
             <v-list-item-icon>
-              <v-icon>{{ icons.mdiCogs }}</v-icon>
+              <v-icon color="primary">{{ icons.mdiCogs }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Админ-панель</v-list-item-title>
           </v-list-item>
           <v-list-item link href="/logout">
             <v-list-item-icon>
-              <v-icon>{{ icons.mdiLogoutVariant }}</v-icon>
+              <v-icon color="primary">{{ icons.mdiLogoutVariant }}</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Выход</v-list-item-title>
           </v-list-item>
@@ -47,7 +70,10 @@
 import {mapGetters} from 'vuex'
 import {
   mdiLogoutVariant,
-  mdiCogs
+  mdiCogs,
+  mdiAccountHardHat,
+  mdiDomain,
+  mdiFloorPlan
 } from '@mdi/js'
 
 export default {
@@ -56,7 +82,10 @@ export default {
     return {
       icons: {
         mdiLogoutVariant,
-        mdiCogs
+        mdiCogs,
+        mdiAccountHardHat,
+        mdiDomain,
+        mdiFloorPlan
       }
     }
   },
@@ -71,7 +100,7 @@ export default {
 .v-navigation-drawer {
   position: fixed;
   height: 100vh;
-  min-width: 65px !important;
+  min-width: 61px !important;
 }
 
 </style>
