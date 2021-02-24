@@ -36,12 +36,6 @@
         </v-list-item-icon>
         <v-list-item-title>ЖК</v-list-item-title>
       </v-list-item>
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon color="primary">{{ icons.mdiAccountHardHat }}</v-icon>
-        </v-list-item-icon>
-        <v-list-item-title>Застройщики</v-list-item-title>
-      </v-list-item>
     </v-list>
     <template v-slot:append>
       <div class="pa-2">
