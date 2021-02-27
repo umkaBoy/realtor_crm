@@ -11,7 +11,7 @@
           <v-img src="https://png.pngtree.com/template/20191014/ourmid/pngtree-home-or-house-roof-logo-design-template-with-water-wave-image_317799.jpg"></v-img>
         </v-list-item-avatar>
       </v-list-item>
-      <v-list-item link to="profile">
+      <v-list-item link to="/profile">
         <v-list-item-content>
           <v-list-item-title class="title">
             {{ username || '¯\\_(ツ)_/¯' }}
@@ -24,13 +24,13 @@
     <v-list
       nav
       dense>
-      <v-list-item link to="/">
+      <v-list-item link to="/index/lots">
         <v-list-item-icon>
           <v-icon color="primary">{{ icons.mdiFloorPlan }}</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Лоты</v-list-item-title>
       </v-list-item>
-      <v-list-item link>
+      <v-list-item link to="/index/complexes">
         <v-list-item-icon>
           <v-icon color="primary">{{ icons.mdiDomain }}</v-icon>
         </v-list-item-icon>

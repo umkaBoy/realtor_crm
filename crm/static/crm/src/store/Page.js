@@ -1,37 +1,45 @@
+import * as pageApi from '@/api/Page'
+var counter = 0
+var dataPage = null
+
 export default {
   namespaced: true,
   state: {
     isLoading: false,
-    data: [
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-      '15',
-      '16',
-      '17'
-    ]
+    data: []
   },
   getters: {
     isLoading: state => state.isLoading,
-    getData: state => state.data
+    getData: state => state.data,
+    getSubDev: (state) => {
+      try {
+        return state.data.map(item => item.developer).filter((obj, pos, arr) => {
+          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
+        })
+      } catch (err) {
+        return []
+      }
+    },
+    getSubComp: (state) => {
+      try {
+        return state.data.map(item => item.complexe).filter((obj, pos, arr) => {
+          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
+        })
+      } catch (err) {
+        return []
+      }
+    }
   },
   mutations: {
     setLoader (state, status) {
       state.isLoading = status
     },
     setData (state, data) {
-      state.data = data
+      if (counter === 0) {
+        state.data = data
+      } else {
+        state.data.push(...data)
+      }
     }
   },
   actions: {
@@ -44,12 +52,17 @@ export default {
         commit('setLoader', flag)
       }
     },
-    async load ({ dispatch, commit }) {
+    async load ({ dispatch, commit }, {page}) {
       dispatch('Page/loading', {flag: true}, {root: true})
       try {
-        console.log('3')
-        // const user = await userApi.self()
-        // commit('setUser', user)
+        if (dataPage !== page) {
+          dataPage = page
+          counter = 0
+          commit('setData', [])
+        }
+        const data = await pageApi.loadData(counter, page)
+        counter++
+        commit('setData', data)
       } catch (e) {
         dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить список объектов', timeout: 5000 }, { root: true })
       } finally {

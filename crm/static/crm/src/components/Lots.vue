@@ -10,15 +10,20 @@
     >
 <!--          -->
       <template v-slot:default="{ item, index }">
-      <v-list-item :key="item">
+      <v-list-item :key="item.id">
         <v-list-item-action>
           <fc-image :link="'https://picsum.photos/200/300'"></fc-image>
         </v-list-item-action>
 
         <v-list-item-content>
-          <v-list-item-title>
-            Лот <strong>ID {{ item }}</strong>
-          </v-list-item-title>
+          <v-row>
+            <v-col
+              cols="12"
+              sm="12"
+              md="4">
+              <strong> {{ item.name }}</strong>
+            </v-col>
+          </v-row>
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
@@ -26,7 +31,8 @@
         :handler="fetchData"
         :should-handle="!loading"
         scrollContainer="scroll"
-        v-if="index === lots.length - 1">
+        v-if="index === lots.length - 1"
+        class="text-center">
         Загрузка...
       </mugen-scroll>
     </template>
@@ -38,6 +44,7 @@
 <script>
 import FCImage from './inputs/FCImage'
 import MugenScroll from 'vue-mugen-scroll'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'Lots',
@@ -47,18 +54,26 @@ export default {
   },
   data () {
     return {
-      loading: false,
-      lots: Array(10).fill(Math.floor(Math.random() * Math.floor(10000)))
+      loading: false
     }
+  },
+  created () {
+    this.fetchData()
+  },
+  computed: {
+    ...mapGetters('Page', {lots: 'getData'})
   },
   methods: {
     fetchData () {
       this.loading = true
-      this.lots = this.lots.concat(Array(10).fill(Math.floor(Math.random() * Math.floor(10000))))
-      // ... the code you wanna run to fetch data
+      this.$store.dispatch('Page/load', {
+        page: this.$route.name
+      }, {
+        root: true
+      })
       setTimeout(() => {
         this.loading = false
-      }, 500)
+      }, 100)
     }
   }
 }

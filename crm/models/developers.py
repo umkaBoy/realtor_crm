@@ -18,6 +18,11 @@ class Developer(models.Model):
         verbose_name_plural = 'Застройщики'
         ordering = ['name']
 
+
     def __str__(self):
         return self.name
 
+
+    @property
+    def count_complexes(self):
+        return self.complexes.all().count()

@@ -14,7 +14,7 @@ class Complex(models.Model):
     region = models.ForeignKey('crm.Region', verbose_name='Регион', null=True, on_delete=models.SET_NULL)
     address = models.TextField(max_length=256, verbose_name='Адрес', null=False, blank=False, default='')
     developer = models.ForeignKey('crm.Developer', verbose_name='Застройщик', null=True, \
-                                  on_delete=models.CASCADE)
+                                  on_delete=models.CASCADE, related_name='complexes')
     description = models.TextField(verbose_name='Описание', blank=False, null=False, default='', max_length=2048)
     start_of_construction = models.DateField(blank=False, null=True, verbose_name='Начало строительства')
     end_of_construction = models.DateField(blank=False, null=True, verbose_name='Сдача')

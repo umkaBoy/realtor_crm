@@ -1,137 +1,153 @@
 <template>
   <v-container style="margin-left: 61px">
-    <v-row style="height: 93vh; width: 96vw">
+    <v-row>
       <v-col
         cols="12"
         sm="12"
         md="12">
         <fc-header></fc-header>
       </v-col>
-      <v-navigation-drawer ref="drawer" left stateless :width="navigation.width" v-model="navigation.shown">
-        <v-virtual-scroll
-          bench="50"
-          :items="complexes"
-          height="92vh"
-          width="auto"
-          item-height="64"
-        >
-<!--          -->
-          <template v-slot:default="{ item, index }">
-          <v-list-item :key="item">
-            <v-list-item-content>
-              <v-list-item-title>
-                <a href="#">ЖК <strong>№{{ index }}</strong></a>
-                <a href="#" class="float-right">10 лотов</a>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-divider></v-divider>
-        </template>
-<!--          -->
-        </v-virtual-scroll>
-       </v-navigation-drawer>
-       <v-navigation-drawer stateless>
-          <lots></lots>
-       </v-navigation-drawer>
+    </v-row>
+    <v-row class="fill-height" style="width: 96vw" >
+<!--    контент-->
+      <v-col
+        cols="12"
+        sm="12"
+        md="12">
+        <div class="outer">
+          <div class="block block-1" ref="block1" v-show="navigation.shown">
+            <router-view @selectItem="onSelectSubItem" @selectGroup="onSelectGroup" name="sub"></router-view>
+          </div>
+        <div class="slider" ref="slider1" v-show="navigation.shown">
+        </div>
+        <div class="block block-2" ref="block2" v-show="navigationC.shown">
+          <router-view name="main"></router-view>
+        </div>
+        <div class="slider" ref="slider2" v-show="!navigation.shown && navigationR.shown">
+        </div>
+        <div class="block block-2" ref="block3" v-show="navigationR.shown">
+          информация по объекту
+        </div>
+  <!--      Конеч контента-->
+        </div>
+      </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
 import Header from './base/Header'
-// import {mapGetters} from 'vuex'
-import Lots from './Lots'
+import { mdiPlusBoxOutline } from '@mdi/js'
 
 export default {
   name: 'Index',
   components: {
-    'fc-header': Header,
-    'lots': Lots
+    'fc-header': Header
   },
   data () {
     return {
-      complexes: Array(10).fill(Math.floor(Math.random() * Math.floor(10000))),
+      icons: {
+        mdiPlusBoxOutline
+      },
+      dataL: Array(10).fill(Math.floor(Math.random() * Math.floor(10000))),
       navigation: {
-        width: '20vw',
-        borderSize: 3,
         shown: true
+      },
+      navigationC: {
+        hasToggled: false,
+        shown: true
+      },
+      navigationR: {
+        shown: false
       }
     }
   },
+  beforeRouteUpdate (to, from, next) {
+    this.setBlocksVisibility()
+    next()
+  },
   mounted () {
-    this.setBorderWidth()
     this.setEvents()
   },
   methods: {
-    setBorderWidth () {
-      let i = this.$refs.drawer.$el.querySelector(
-        '.v-navigation-drawer__border'
-      )
-      i.style.width = this.navigation.borderSize + 'px'
-      i.style.cursor = 'ew-resize'
-      i.style.backgroundColor = 'lightgrey'
+    toggleCLassOnBlock () {
+      let block = this.$refs.block2
+      block.classList.toggle('block-2')
+      block.classList.toggle('block-1')
     },
-    setEvents () {
-      const minSize = this.navigation.borderSize
-      const el = this.$refs.drawer.$el
-      const drawerBorder = el.querySelector('.v-navigation-drawer__border')
-      const direction = el.classList.contains('v-navigation-drawer--right')
-        ? 'right'
-        : 'left'
-
-      function resize (e) {
-        document.body.style.cursor = 'ew-resize'
-        let f =
-          direction === 'right'
-            ? document.body.scrollWidth - e.clientX
-            : e.clientX
-        el.style.width = (f - 61) + 'px'
+    setBlocksVisibility (b1 = true, b2 = true, b3 = false) {
+      this.navigation.shown = b1
+      this.navigationR.shown = b3
+      this.navigationC.shown = b2
+      if (this.navigationC.hasToggled && !b3) {
+        this.toggleCLassOnBlock()
+        this.navigationC.hasToggled = false
+        this.setEvents()
+      } else if (!this.navigationC.hasToggled && b3) {
+        this.toggleCLassOnBlock()
+        const block = this.$refs.block2
+        const slide = this.$refs.slider2
+        this.navigationC.hasToggled = true
+        this.setEvents(block, slide)
       }
+    },
+    setEvents (el = null, slide = null) {
+      let block = el || this.$refs.block1
+      let slider = slide || this.$refs.slider1
 
-      drawerBorder.addEventListener(
-        'mousedown',
-        (e) => {
-          el.classList.add('unselectable')
-          if (e.offsetX < minSize) {
-            el.style.transition = 'initial'
-            document.addEventListener('mousemove', resize, false)
-          }
-        },
-        false
-      )
-
-      document.addEventListener(
-        'mouseup',
-        () => {
-          el.classList.remove('unselectable')
-          el.style.transition = ''
-          this.navigation.width = el.style.width
-          document.body.style.cursor = ''
-          document.removeEventListener('mousemove', resize, false)
-        },
-        false
-      )
+      slider.onmousedown = function dragMouseDown (e) {
+        let dragX = e.clientX
+        document.onmousemove = function onMouseMove (e) {
+          block.style.width = block.offsetWidth + e.clientX - dragX + 'px'
+          dragX = e.clientX
+        }
+        // remove mouse-move listener on mouse-up
+        document.onmouseup = () => {
+          document.onmousemove = document.onmouseup = null
+        }
+      }
+    },
+    onSelectGroup (id = null) {
+      this.setBlocksVisibility()
+    },
+    onSelectSubItem (id = null) {
+      this.setBlocksVisibility(true, false, true)
     }
   }
-  // computed: {
-  //   ...mapGetters('Page', {data: 'getData'})
-  // },
 }
 </script>
 
-<style scoped>
-.col,
-.col-12 {
-  padding-top: 8px;
+<style>
+.outer {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
 }
-.unselectable {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently
-                                  not supported by any browser */
+
+.block {
+  height: 100%;
+}
+
+.block-1 {
+  width: 30%;
+}
+
+.block-2 {
+  flex: 1; /* adjust automatically */
+  min-width: 0; /* allow flexing beyond auto width */
+  overflow: hidden; /* hide overflow on small width */
+}
+
+.slider {
+  line-height: 100%;
+  width: 5px;
+  background-color: #c2c2c2;
+  border: none;
+  cursor: col-resize;
+  user-select: none; /* disable selection */
+  text-align: center;
+}
+.v-virtual-scroll__item:hover {
+  background-color: #fbffe7;
 }
 </style>
