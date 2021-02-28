@@ -39,6 +39,7 @@ export default {
     setData (state, data) {
       if (counter === 0) {
         state.data = data
+        state.isFinished = false
       } else {
         if (!data.length) state.isFinished = true
         state.data.push(...data)
