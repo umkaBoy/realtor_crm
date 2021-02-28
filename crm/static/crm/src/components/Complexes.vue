@@ -40,7 +40,7 @@
         :handler="fetchData"
         :should-handle="!loading"
         scrollContainer="scroll"
-        v-if="index === complexes.length - 1"
+        v-if="index === complexes.length - 1 && !isFinished"
         class="text-center">
         Загрузка...
       </mugen-scroll>
@@ -68,7 +68,8 @@ export default {
     this.fetchData()
   },
   computed: {
-    ...mapGetters('Page', {complexes: 'getData'})
+    ...mapGetters('Page', {complexes: 'getData'}),
+    ...mapGetters('Page', {isFinished: 'isFinished'})
   },
   methods: {
     fetchData () {

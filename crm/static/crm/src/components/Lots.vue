@@ -31,7 +31,7 @@
         :handler="fetchData"
         :should-handle="!loading"
         scrollContainer="scroll"
-        v-if="index === lots.length - 1"
+        v-if="index === lots.length - 1 && !isFinished"
         class="text-center">
         Загрузка...
       </mugen-scroll>
@@ -61,7 +61,8 @@ export default {
     this.fetchData()
   },
   computed: {
-    ...mapGetters('Page', {lots: 'getData'})
+    ...mapGetters('Page', {lots: 'getData'}),
+    ...mapGetters('Page', {isFinished: 'isFinished'})
   },
   methods: {
     fetchData () {

@@ -6,11 +6,13 @@ export default {
   namespaced: true,
   state: {
     isLoading: false,
-    data: []
+    data: [],
+    isFinished: false
   },
   getters: {
     isLoading: state => state.isLoading,
     getData: state => state.data,
+    isFinished: state => state.isFinished,
     getSubDev: (state) => {
       try {
         return state.data.map(item => item.developer).filter((obj, pos, arr) => {
@@ -38,6 +40,7 @@ export default {
       if (counter === 0) {
         state.data = data
       } else {
+        if (!data.length) state.isFinished = true
         state.data.push(...data)
       }
     }
@@ -59,6 +62,7 @@ export default {
           dataPage = page
           counter = 0
           commit('setData', [])
+          counter++
         }
         const data = await pageApi.loadData(counter, page)
         counter++
