@@ -24,7 +24,7 @@ export default {
     },
     getSubComp: (state) => {
       try {
-        return state.data.map(item => item.complexe).filter((obj, pos, arr) => {
+        return state.data.map(item => item.complex).filter((obj, pos, arr) => {
           return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
         })
       } catch (err) {

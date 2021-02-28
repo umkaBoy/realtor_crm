@@ -78,7 +78,7 @@ class Plan(models.Model):
 class NewBuildingLot(Lot):
     corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=False, blank=True, on_delete=models.CASCADE)
     lease = models.CharField(verbose_name='Сдача', null=False, blank=True, default='', max_length=128)
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE, related_name='new_buildings')
 
     class Meta:
         verbose_name = 'Новостройка'
@@ -89,7 +89,7 @@ class NewBuildingLot(Lot):
 class OldBuildingLot(Lot):
     corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=True, blank=True, on_delete=models.CASCADE)
     lease = models.CharField(verbose_name='Сдача', null=False, blank=True, default='', max_length=128)
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, blank=True, on_delete=models.CASCADE, related_name='old_buildings')
 
     class Meta:
         verbose_name = 'Вторичка'

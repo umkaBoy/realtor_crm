@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from crm.models import Developer, Complex, Lot
+from crm.models import Developer, Complex, NewBuildingLot, OldBuildingLot
 
 
 class ProfileSerializer(ModelSerializer):
@@ -30,6 +30,17 @@ class DeveloperSubSerializer(ModelSerializer):
         )
 
 
+class ComplexSubSerializer(ModelSerializer):
+
+    class Meta:
+        model = Developer
+        fields = (
+            'id',
+            'name',
+            'count_lots_in_sale'
+        )
+
+
 class ComplexesShortSerializer(ModelSerializer):
     developer = DeveloperSubSerializer()
 
@@ -44,15 +55,33 @@ class ComplexesShortSerializer(ModelSerializer):
         )
 
 
-class LotsShortSerializer(ModelSerializer):
+class OldBuildingsShortSerializer(ModelSerializer):
+    complex = ComplexSubSerializer()
 
     class Meta:
-        model = Lot
+        model = OldBuildingLot
         fields = (
             'id',
             'name',
             'status',
             'floor',
             's',
-            'price'
+            'price',
+            'complex'
+        )
+
+
+class NewBuildingsShortSerializer(ModelSerializer):
+    # complex = ComplexSubSerializer()
+
+    class Meta:
+        model = NewBuildingLot
+        fields = (
+            'id',
+            'name',
+            'status',
+            'floor',
+            's',
+            'price',
+            'complex'
         )

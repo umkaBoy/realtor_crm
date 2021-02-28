@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.paginator import Paginator
-from crm.serializers import ProfileSerializer, ComplexesShortSerializer, LotsShortSerializer
+from crm.serializers import ProfileSerializer, ComplexesShortSerializer, OldBuildingsShortSerializer, \
+    NewBuildingsShortSerializer
 from crm.models.complexes import Complex
 from crm.models.lots import Lot
 
@@ -15,7 +16,8 @@ class ProfileRest(APIView):
 
 
 class LoadDataRest(APIView):
-    ser1 = LotsShortSerializer
+    ser = OldBuildingsShortSerializer
+    ser1 = NewBuildingsShortSerializer
     ser2 = ComplexesShortSerializer
 
     def post(self, request, *args, **kwargs):
@@ -28,9 +30,13 @@ class LoadDataRest(APIView):
             objs = Lot.objects.all()
             ser_data = self.ser1(objs, many=True)
 
-        paginator = Paginator(objs, 20)
+        paginator = Paginator(objs, 1)
         try:
-            cart_details = paginator.page(counter)
+            data_page = paginator.page(counter)
         except Exception:
             return Response([])
+        if page == 'complexes':
+            ser_data = self.ser2(data_page, many=True)
+        if page == 'lots':
+            ser_data = self.ser1(data_page, many=True)
         return Response(ser_data.data)

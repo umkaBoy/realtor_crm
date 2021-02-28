@@ -13,7 +13,7 @@
         <v-list-item-content>
           <v-list-item-title>
             <a href="#" @click.prevent="$emit('selectItem',index)"><strong>{{ item.name }}</strong></a>
-            <a href="#" @click.prevent="$emit('selectGroup', index)" class="float-right">{{ index }} лотов</a>
+            <a href="#" @click.prevent="$emit('selectGroup', index)" class="float-right">{{ item.count_lots_in_sale }} лотов</a>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>

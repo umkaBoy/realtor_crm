@@ -68,6 +68,9 @@ class Complex(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def count_lots_in_sale(self):
+        self.old_buildings.all().count() + self.new_buildings.all().count()
 
 
 class Corp(models.Model):
