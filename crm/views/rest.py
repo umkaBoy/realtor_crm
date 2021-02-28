@@ -30,7 +30,7 @@ class LoadDataRest(APIView):
             objs = Lot.objects.all()
             ser_data = self.ser1(objs, many=True)
 
-        paginator = Paginator(objs, 1)
+        paginator = Paginator(objs, 20)
         try:
             data_page = paginator.page(counter)
         except Exception:
