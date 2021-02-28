@@ -348,6 +348,7 @@ class PlanAdmin(ModelAdmin):
         '__str__',
         'updated_by',
         'updated_at',
+        'image_tag'
     )
     readonly_fields = ['updated_by', 'updated_at', 'image_tag']
     search_fields = [
