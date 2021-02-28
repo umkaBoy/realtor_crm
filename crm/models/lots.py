@@ -31,7 +31,11 @@ class Lot(models.Model):
     def __str__(self):
         return self.name
 
-
+    @property
+    def url_plan(self):
+        if self.plan:
+            return self.plan.plan.url
+        return ''
 
 
 class Plan(models.Model):

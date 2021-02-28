@@ -3,8 +3,6 @@ from crm.utils.base import documents_upload_path, images_upload_path
 from crm.consts import *
 import os
 import datetime
-from crm.models.complexes import Complex
-
 
 
 class Region(models.Model):

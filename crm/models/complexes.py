@@ -70,7 +70,7 @@ class Complex(models.Model):
 
     @property
     def count_lots_in_sale(self):
-        self.old_buildings.all().count() + self.new_buildings.all().count()
+        return self.old_buildings.all().count() + self.new_buildings.all().count()
 
 
 class Corp(models.Model):
@@ -80,8 +80,8 @@ class Corp(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='floors',
                                  on_delete=models.CASCADE, blank=False, null=False)
-    start_of_construction = models.DateField(blank=False, null=True, verbose_name='Начало строительства')
-    end_of_construction = models.DateField(blank=False, null=True, verbose_name='Сдача')
+    start_of_construction = models.CharField(blank=True, default='', max_length=20, null=False, verbose_name='Начало строительства')
+    end_of_construction = models.CharField(blank=True, default='', max_length=20, null=False, verbose_name='Сдача')
     premises_type = models.ForeignKey('crm.PremisesType', verbose_name='Тип помещения', null=True, \
                                       on_delete=models.SET_NULL)
     count_lots = models.IntegerField(verbose_name='Количество лотов', blank=False, null=True)

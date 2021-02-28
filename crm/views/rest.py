@@ -4,7 +4,9 @@ from django.core.paginator import Paginator
 from crm.serializers import ProfileSerializer, ComplexesShortSerializer, OldBuildingsShortSerializer, \
     NewBuildingsShortSerializer
 from crm.models.complexes import Complex
-from crm.models.lots import Lot
+from crm.models.lots import OldBuildingLot, NewBuildingLot
+from itertools import chain
+
 
 
 class ProfileRest(APIView):
@@ -25,10 +27,14 @@ class LoadDataRest(APIView):
         counter = request.data.get('counter')
         if page == 'complexes':
             objs = Complex.objects.all().order_by('developer')
-            ser_data = self.ser2(objs, many=True)
         if page == 'lots':
-            objs = Lot.objects.all()
-            ser_data = self.ser1(objs, many=True)
+            new_buildings = NewBuildingLot.objects.all().order_by('complex')
+            old_buildings = OldBuildingLot.objects.all().order_by('complex')
+            objs = list(
+                sorted(
+                    chain(new_buildings, old_buildings),
+                    key=lambda objects: objects.id
+                ))
 
         paginator = Paginator(objs, 20)
         try:

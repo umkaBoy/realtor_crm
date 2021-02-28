@@ -12,7 +12,7 @@
       <template v-slot:default="{ item, index }">
       <v-list-item :key="item.id">
         <v-list-item-action>
-          <fc-image :link="'https://picsum.photos/200/300'"></fc-image>
+          <fc-image :link="item.url_plan"></fc-image>
         </v-list-item-action>
 
         <v-list-item-content>

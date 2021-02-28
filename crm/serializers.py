@@ -33,7 +33,7 @@ class DeveloperSubSerializer(ModelSerializer):
 class ComplexSubSerializer(ModelSerializer):
 
     class Meta:
-        model = Developer
+        model = Complex
         fields = (
             'id',
             'name',
@@ -67,12 +67,13 @@ class OldBuildingsShortSerializer(ModelSerializer):
             'floor',
             's',
             'price',
-            'complex'
+            'complex',
+            'url_plan'
         )
 
 
 class NewBuildingsShortSerializer(ModelSerializer):
-    # complex = ComplexSubSerializer()
+    complex = ComplexSubSerializer()
 
     class Meta:
         model = NewBuildingLot
@@ -83,5 +84,6 @@ class NewBuildingsShortSerializer(ModelSerializer):
             'floor',
             's',
             'price',
-            'complex'
+            'complex',
+            'url_plan'
         )
