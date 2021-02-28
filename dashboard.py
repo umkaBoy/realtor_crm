@@ -71,6 +71,7 @@ class CustomIndexDashboard(Dashboard):
                         'crm.models.base.PremisesType',
                         'crm.models.base.ObjectClass',
                         'crm.models.complexes.Floor',
+                        'crm.models.lots.Plan',
                     ),
                 )
             ]
