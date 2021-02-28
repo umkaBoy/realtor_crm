@@ -41,7 +41,7 @@ export default {
         state.data = data
         state.isFinished = false
       } else {
-        if (!data.length) state.isFinished = true
+        if (!data.length || data.length < 15) state.isFinished = true
         state.data.push(...data)
       }
     }

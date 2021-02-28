@@ -1,5 +1,5 @@
 <template>
-  <v-container style="margin-left: 61px">
+  <v-container style="margin-left: 61px; position: fixed">
     <v-row>
       <v-col
         cols="12"
@@ -118,6 +118,11 @@ export default {
 </script>
 
 <style>
+.col,
+.col-12 {
+  padding-bottom: 0;
+}
+
 .outer {
   display: flex;
   height: 100%;
@@ -147,7 +152,7 @@ export default {
   user-select: none; /* disable selection */
   text-align: center;
 }
-.v-virtual-scroll__item:hover {
-  background-color: #fbffe7;
+.v-list-item:hover {
+  background-color: #e7f5fe;
 }
 </style>

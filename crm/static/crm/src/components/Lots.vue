@@ -1,43 +1,30 @@
 <template>
-  <div>
-    <v-virtual-scroll
-      ref="scroll"
-      bench="50"
+  <div style="height: 93vh; overflow: scroll" ref="scroll">
+    <v-data-table
+      :headers="headers"
       :items="lots"
-      height="92vh"
-      width="auto"
-      item-height="64"
+      hide-default-footer
+      disable-pagination
+      disable-sort
+      fixed-header
+      :items-per-page="counter"
+      class="elevation-1"
     >
-<!--          -->
-      <template v-slot:default="{ item, index }">
-      <v-list-item :key="item.id">
-        <v-list-item-action>
-          <fc-image :link="item.url_plan"></fc-image>
-        </v-list-item-action>
-
-        <v-list-item-content>
-          <v-row>
-            <v-col
-              cols="12"
-              sm="12"
-              md="4">
-              <strong> {{ item.name }}</strong>
-            </v-col>
-          </v-row>
-        </v-list-item-content>
-      </v-list-item>
-      <v-divider></v-divider>
+      <template v-slot:item.url_plan="{ item }">
+        <fc-image :link="item.url_plan">
+        </fc-image>
+      </template>
+    </v-data-table>
+    <div>
       <mugen-scroll
         :handler="fetchData"
         :should-handle="!loading"
         scrollContainer="scroll"
-        v-if="index === lots.length - 1 && !isFinished"
+        v-if="!isFinished"
         class="text-center">
         Загрузка...
       </mugen-scroll>
-    </template>
-<!--          -->
-    </v-virtual-scroll>
+    </div>
   </div>
 </template>
 
@@ -54,7 +41,20 @@ export default {
   },
   data () {
     return {
-      loading: false
+      loading: false,
+      counter: 30,
+      headers: [
+        {
+          text: 'планировка',
+          align: 'start',
+          value: 'url_plan'
+        },
+        { text: 'Наименование', value: 'name' },
+        { text: 'статус', value: 'status' },
+        { text: 'этаж', value: 'floor' },
+        { text: 'стоимость', value: 'price' },
+        { text: 'площадь', value: 's' }
+      ]
     }
   },
   created () {
@@ -73,8 +73,9 @@ export default {
         root: true
       })
       setTimeout(() => {
+        this.counter = this.lots.length
         this.loading = false
-      }, 100)
+      }, 10)
     }
   }
 }
