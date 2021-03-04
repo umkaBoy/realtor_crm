@@ -49,7 +49,7 @@ export default {
           align: 'start',
           value: 'url_plan'
         },
-        { text: 'Наименование', value: 'name' },
+        { text: 'Наименование', value: '__str__' },
         { text: 'статус', value: 'status' },
         { text: 'этаж', value: 'floor' },
         { text: 'стоимость', value: 'price' },

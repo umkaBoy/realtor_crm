@@ -8,7 +8,7 @@
         <fc-header></fc-header>
       </v-col>
     </v-row>
-    <v-row class="fill-height" style="width: 96vw" >
+    <v-row class="fill-height" style="width: 96vw">
 <!--    контент-->
       <v-col
         cols="12"
@@ -26,9 +26,9 @@
         <div class="slider" ref="slider2" v-show="!navigation.shown && navigationR.shown">
         </div>
         <div class="block block-2" ref="block3" v-show="navigationR.shown">
-          информация по объекту
+          <router-view name="object"></router-view>
         </div>
-  <!--      Конеч контента-->
+  <!--      Конец контента-->
         </div>
       </v-col>
     </v-row>

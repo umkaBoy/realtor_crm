@@ -31,6 +31,15 @@ export default new Router({
           name: 'lots'
         },
         {
+          path: '/complex/:id',
+          components: {
+            main: Lots,
+            sub: SubComplexes,
+            object: SubComplexes
+          },
+          name: 'complex'
+        },
+        {
           path: 'complexes',
           components: {
             main: Complexes,

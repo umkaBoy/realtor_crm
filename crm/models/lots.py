@@ -12,7 +12,6 @@ class Lot(models.Model):
                                    blank=False, null=False)
     updated_at = models.DateTimeField(auto_now=True, null=False, verbose_name='Дата изменения')
 
-    name = models.CharField(verbose_name='Наименование', blank=False, null=False, max_length=128, default='')
     status = models.CharField(verbose_name='Статус', choices=LOT_STATUSES, blank=False, null=False, max_length=128, default='Свободно')
     # Лот
     n_on_price = models.CharField(verbose_name='№ по прайсу', null=False, blank=True, default='', max_length=64)
@@ -29,7 +28,7 @@ class Lot(models.Model):
     comment = models.TextField(verbose_name='Комментарий', null=False, blank=True, default='')
 
     def __str__(self):
-        return self.name
+        return '№{0} {1}'.format(self.id, self.type_object)
 
     @property
     def url_plan(self):

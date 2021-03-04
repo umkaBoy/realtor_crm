@@ -12,7 +12,7 @@
       class="elevation-1"
     >
       <template v-slot:item.name="{ item }">
-        <a href="#" @click.prevent="$emit('selectItem', item.id)"><strong>{{ item.name }}</strong></a>
+        <a href="#" @click="" @click.prevent="$emit('selectItem', item.id)"><strong>{{ item.name }}</strong></a>
       </template>
       <template v-slot:item.count_lots_in_sale="{ item }">
         <a href="#" @click.prevent="$emit('selectGroup', item.id)" class="float-right">{{ item.count_lots_in_sale }} лотов</a>

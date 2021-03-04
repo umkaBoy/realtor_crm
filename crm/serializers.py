@@ -62,7 +62,7 @@ class OldBuildingsShortSerializer(ModelSerializer):
         model = OldBuildingLot
         fields = (
             'id',
-            'name',
+            '__str__',
             'status',
             'floor',
             's',
@@ -79,7 +79,7 @@ class NewBuildingsShortSerializer(ModelSerializer):
         model = NewBuildingLot
         fields = (
             'id',
-            'name',
+            '__str__',
             'status',
             'floor',
             's',
