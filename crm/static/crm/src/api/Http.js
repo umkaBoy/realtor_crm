@@ -9,7 +9,7 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 
 const instance = axios.create({
   baseURL: '/rest/',
-  timeout: 10000
+  timeout: 100000
 })
 
 export default instance

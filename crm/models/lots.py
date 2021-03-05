@@ -87,6 +87,9 @@ class NewBuildingLot(Lot):
         verbose_name = 'Новостройка'
         verbose_name_plural = 'Новостройки'
 
+    @property
+    def type_building(self):
+        return 'newbuildinglot'
 
 
 class OldBuildingLot(Lot):
@@ -97,3 +100,8 @@ class OldBuildingLot(Lot):
     class Meta:
         verbose_name = 'Вторичка'
         verbose_name_plural = 'Вторички'
+
+
+    @property
+    def type_building(self):
+        return 'oldbuildinglot'

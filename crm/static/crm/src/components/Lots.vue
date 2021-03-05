@@ -3,6 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="lots"
+      @click:row="$emit('selectItem', $event.type_building, $event.id, [!1, !0, !0])"
       hide-default-footer
       disable-pagination
       disable-sort
@@ -50,10 +51,10 @@ export default {
           value: 'url_plan'
         },
         { text: 'Наименование', value: '__str__' },
-        { text: 'статус', value: 'status' },
-        { text: 'этаж', value: 'floor' },
-        { text: 'стоимость', value: 'price' },
-        { text: 'площадь', value: 's' }
+        { text: 'Статус', value: 'status' },
+        { text: 'Этаж', value: 'floor' },
+        { text: 'Стоимость', value: 'price' },
+        { text: 'Площадь', value: 's' }
       ]
     }
   },

@@ -2,10 +2,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.paginator import Paginator
 from crm.serializers import ProfileSerializer, ComplexesShortSerializer, OldBuildingsShortSerializer, \
-    NewBuildingsShortSerializer
+    NewBuildingsShortSerializer, MainDeveloperSerializer, MainComplexSerilizer, MainNewSerilizer, \
+    MainOldSerilizer
 from crm.models.complexes import Complex
 from crm.models.lots import OldBuildingLot, NewBuildingLot
+from crm.models.developers import Developer
 from itertools import chain
+from django.shortcuts import get_object_or_404
+
 
 
 
@@ -45,4 +49,28 @@ class LoadDataRest(APIView):
             ser_data = self.ser2(data_page, many=True)
         if page == 'lots':
             ser_data = self.ser1(data_page, many=True)
+        return Response(ser_data.data)
+
+
+class LoadMainRest(APIView):
+    ser_dev = MainDeveloperSerializer
+    ser_com = MainComplexSerilizer
+    ser_new = MainNewSerilizer
+    ser_old = MainOldSerilizer
+
+    def post(self, request, *args, **kwargs):
+        id = request.data.get('id')
+        type = request.data.get('type')
+        if type == 'developer':
+            obj = get_object_or_404(Developer, id=id)
+            ser_data = self.ser_dev(obj)
+        if type == 'complex':
+            obj = get_object_or_404(Complex, id=id)
+            ser_data = self.ser_com(obj)
+        if type == 'newbuildinglot':
+            obj = get_object_or_404(NewBuildingLot, id=id)
+            ser_data = self.ser_new(obj)
+        if type == 'oldbuildinglot':
+            obj = get_object_or_404(OldBuildingLot, id=id)
+            ser_data = self.ser_old(obj)
         return Response(ser_data.data)

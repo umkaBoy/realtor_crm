@@ -7,7 +7,8 @@ export default {
   state: {
     isLoading: false,
     data: [],
-    isFinished: false
+    isFinished: false,
+    main: {}
   },
   getters: {
     isLoading: state => state.isLoading,
@@ -30,7 +31,8 @@ export default {
       } catch (err) {
         return []
       }
-    }
+    },
+    getMain: state => state.main
   },
   mutations: {
     setLoader (state, status) {
@@ -44,6 +46,9 @@ export default {
         if (!data.length || data.length < 15) state.isFinished = true
         state.data.push(...data)
       }
+    },
+    setMain (state, data) {
+      state.main = data
     }
   },
   actions: {
@@ -70,6 +75,17 @@ export default {
         commit('setData', data)
       } catch (e) {
         dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить список объектов', timeout: 5000 }, { root: true })
+      } finally {
+        dispatch('Page/loading', {flag: false, timeout: 300}, {root: true})
+      }
+    },
+    async loadMain ({ dispatch, commit }, {id, type}) {
+      dispatch('Page/loading', {flag: true}, {root: true})
+      try {
+        const data = await pageApi.loadMainObject(id, type)
+        commit('setMain', data)
+      } catch (e) {
+        dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить данный объект', timeout: 5000 }, { root: true })
       } finally {
         dispatch('Page/loading', {flag: false, timeout: 300}, {root: true})
       }

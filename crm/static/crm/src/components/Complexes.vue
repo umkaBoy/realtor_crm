@@ -4,6 +4,7 @@
       :headers="headers"
       :items="complexes"
       hide-default-footer
+      @click:row="$emit('selectItem', 'complex', $event.id, [!1, !0, !0])"
       disable-pagination
       disable-sort
       fixed-header
@@ -37,9 +38,10 @@ export default {
       loading: false,
       counter: 30,
       headers: [
-        { text: 'Наименование', value: 'name' },
-        { text: 'сдача', value: 'end_of_construction' },
-        { text: 'этажность', value: 'count_floors' }
+        { text: 'id', value: 'id' },
+        { text: 'Имя', value: 'name' },
+        { text: 'Адрес', value: 'address' },
+        { text: 'Сдача', value: 'end_of_construction' }
       ]
     }
   },

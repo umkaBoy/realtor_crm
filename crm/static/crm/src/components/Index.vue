@@ -8,9 +8,10 @@
         <fc-header></fc-header>
       </v-col>
     </v-row>
-    <v-row class="fill-height" style="width: 96vw">
+    <v-row class="fill-height bckg">
 <!--    контент-->
       <v-col
+        class="main-content"
         cols="12"
         sm="12"
         md="12">
@@ -21,12 +22,17 @@
         <div class="slider" ref="slider1" v-show="navigation.shown">
         </div>
         <div class="block block-2" ref="block2" v-show="navigationC.shown">
-          <router-view name="main"></router-view>
+          <router-view name="main" @selectItem="onSelectSubItem"></router-view>
         </div>
         <div class="slider" ref="slider2" v-show="!navigation.shown && navigationR.shown">
         </div>
         <div class="block block-2" ref="block3" v-show="navigationR.shown">
-          <router-view name="object"></router-view>
+          <main-wrap :key="navigationR.type + navigationR.id"
+                     v-if="navigationR.id"
+                     @selectGroup="onSelectGroup"
+                     :id="navigationR.id"
+                     :type="navigationR.type">
+          </main-wrap>
         </div>
   <!--      Конец контента-->
         </div>
@@ -38,11 +44,13 @@
 <script>
 import Header from './base/Header'
 import { mdiPlusBoxOutline } from '@mdi/js'
+import MainWrap from './MainWrap'
 
 export default {
   name: 'Index',
   components: {
-    'fc-header': Header
+    'fc-header': Header,
+    'main-wrap': MainWrap
   },
   data () {
     return {
@@ -58,6 +66,8 @@ export default {
         shown: true
       },
       navigationR: {
+        id: null,
+        type: null,
         shown: false
       }
     }
@@ -110,17 +120,23 @@ export default {
     onSelectGroup (id = null) {
       this.setBlocksVisibility()
     },
-    onSelectSubItem (id = null) {
-      this.setBlocksVisibility(true, false, true)
+    onSelectSubItem (mainPage = null, id = null, statuses = []) {
+      this.navigationR.id = id
+      this.navigationR.type = mainPage
+      if (!statuses.length) {
+        this.setBlocksVisibility(true, false, true)
+      } else {
+        this.setBlocksVisibility(...statuses)
+      }
     }
   }
 }
 </script>
 
 <style>
-.col,
-.col-12 {
-  padding-bottom: 0;
+.main-content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
 }
 
 .outer {
@@ -154,5 +170,13 @@ export default {
 }
 .v-list-item:hover {
   background-color: #e7f5fe;
+}
+img {
+  object-fit: cover;
+}
+.bckg {
+  background: rgb(243, 242, 242);
+  background: linear-gradient(156deg, rgb(241, 240, 240) 0%, rgb(255, 255, 255) 100%);
+  width: 96vw;
 }
 </style>

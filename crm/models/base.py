@@ -131,6 +131,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='Изображение')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
+    developer = models.ForeignKey('crm.Developer', related_name='images', verbose_name='Застройщик', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Изображение'
@@ -158,3 +159,12 @@ class Image(models.Model):
         return ''
 
     get_created_at.fget.short_description = u'Дата загрузки'
+
+
+    @property
+    def get_url(self):
+        if self.image:
+            return self.image.url
+        else:
+            return ''
+

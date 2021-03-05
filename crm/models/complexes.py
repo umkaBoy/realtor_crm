@@ -17,7 +17,7 @@ class Complex(models.Model):
                                   on_delete=models.CASCADE, related_name='complexes')
     description = models.TextField(verbose_name='Описание', blank=False, null=False, default='', max_length=2048)
     start_of_construction = models.CharField(blank=True, null=False, default='', max_length=16, verbose_name='Начало строительства')
-    end_of_construction = models.CharField(blank=True, null=False, default='', verbose_name='Сдача', max_length=20)
+    end_of_construction = models.CharField(blank=True, null=False, default='', verbose_name='Сдача', max_length=256)
     construction_tech = models.ForeignKey('crm.ConstructionTech', verbose_name='Технология строительства', null=True, \
                                   on_delete=models.SET_NULL)
     premises_type = models.ForeignKey('crm.PremisesType', verbose_name='Тип помещения', null=True, \

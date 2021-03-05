@@ -94,6 +94,7 @@ class DeveloperAdmin(ModelAdmin):
     ]
     inlines = (
         ContactsInlineAdmin,
+        ImageInlineAdmin
     )
 
     def get_fieldsets(self, request, obj=None):
@@ -382,7 +383,6 @@ class NewBuildingLotAdmin(LotAdmin):
     def get_fieldsets(self, request, obj=None):
         full_fieldsets = [
             ('Общая информация', {'fields': (
-                'name',
                 'status',
                 'complex',
                 'lease',
@@ -416,7 +416,6 @@ class OldBuildingLotAdmin(LotAdmin):
     def get_fieldsets(self, request, obj=None):
         full_fieldsets = [
             ('Общая информация', {'fields': (
-                'name',
                 'status',
                 'complex',
                 'lease',
