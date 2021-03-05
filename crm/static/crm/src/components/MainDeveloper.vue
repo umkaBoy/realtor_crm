@@ -2,7 +2,7 @@
   <v-container style="height: 93vh; overflow: scroll">
     <v-row>
       <v-col
-        md="7"
+        :md="developer.contacts && developer.images && developer.contacts.length + developer.images.length === 0 ? 12 : 7"
         sm="12"
         cols="12">
         <v-card
