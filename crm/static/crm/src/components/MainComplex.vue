@@ -6,11 +6,12 @@
         sm="12"
         cols="12">
         <v-card
+          min-height="70"
           class="pa-2"
         >
           <h3>{{ complex.name }}</h3>
-          <span class="grey--text"><strong>{{ complex.region.name }}</strong> {{ complex.address }}</span>
           <span class="grey--text float-right">Застройщик {{ complex.developer.name }}</span>
+          <span class="grey--text"><strong>{{ complex.region.name }}</strong> {{ complex.address }}</span>
         </v-card>
         <v-card color="transparent">
           <v-expansion-panels multiple>

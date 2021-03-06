@@ -22,7 +22,7 @@
               :size="70"
               :width="10"
               :value="percentage_objects_under_construction"
-              color="blue"
+              color="primary"
             >
               <span class="black--text">{{ developer.objects_under_construction }}</span>
             </v-progress-circular>
@@ -36,7 +36,7 @@
               :size="70"
               :width="10"
               :value="100 - percentage_objects_under_construction"
-              color="yellow"
+              color="blue"
             >
               <span class="black--text">{{ developer.objects_delivered }}</span>
             </v-progress-circular>
