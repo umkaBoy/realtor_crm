@@ -179,4 +179,7 @@ img {
   background: linear-gradient(156deg, rgb(241, 240, 240) 0%, rgb(255, 255, 255) 100%);
   width: 96vw;
 }
+.v-expansion-panel::before {
+  box-shadow: none;
+}
 </style>

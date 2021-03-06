@@ -3,8 +3,11 @@
     <v-data-table
       :headers="headers"
       :items="lots"
-      @click:row="$emit('selectItem', $event.type_building, $event.id, [!1, !0, !0])"
+      item-key="id"
+      @click:row="$emit('selectItem', $event.type_building, $event.id, [!1, !0, !0]), selected = [$event]"
       hide-default-footer
+      v-model="selected"
+      single-select
       disable-pagination
       disable-sort
       fixed-header
@@ -42,6 +45,7 @@ export default {
   },
   data () {
     return {
+      selected: [],
       loading: false,
       counter: 30,
       headers: [

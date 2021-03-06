@@ -2,7 +2,8 @@ from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
-from crm.models import Developer, Complex, NewBuildingLot, OldBuildingLot, Image, Contacts
+from crm.models import Developer, Complex, NewBuildingLot, OldBuildingLot, Image, Contacts, Region, \
+    ObjectClass, PremisesType, ConstructionTech
 
 
 class ImageSerializer(ModelSerializer):
@@ -12,6 +13,42 @@ class ImageSerializer(ModelSerializer):
         fields = (
             'id',
             'get_url'
+        )
+
+
+class ClassObjectSerializer(ModelSerializer):
+
+    class Meta:
+        model = ObjectClass
+        fields = (
+            'name',
+        )
+
+
+class ConstructionTechSerializer(ModelSerializer):
+
+    class Meta:
+        model = ConstructionTech
+        fields = (
+            'name',
+        )
+
+
+class PremisesTypeSerializer(ModelSerializer):
+
+    class Meta:
+        model = PremisesType
+        fields = (
+            'name',
+        )
+
+
+class RegionSerializer(ModelSerializer):
+
+    class Meta:
+        model = Region
+        fields = (
+            'name',
         )
 
 
@@ -142,13 +179,65 @@ class MainDeveloperSerializer(ModelSerializer):
 
 class MainComplexSerilizer(ModelSerializer):
     updated_by = ProfileSerializer(read_only=True)
+    images = ImageSerializer(many=True, read_only=True)
+    contacts = ContactsSerializer(many=True, read_only=True)
+    region = RegionSerializer()
+    developer = DeveloperSubSerializer()
+    object_class = ClassObjectSerializer()
+    premises_type = PremisesTypeSerializer()
+    construction_tech = ConstructionTechSerializer()
 
     class Meta:
         model = Complex
         fields = (
             'id',
             'updated_by',
-            'updated_at'
+            'updated_at',
+            'images',
+            'name',
+            'contacts',
+            'region',
+            'address',
+            'description',
+            'developer',
+            'end_of_construction',
+            'start_of_construction',
+            'object_class',
+            'count_lots',
+            'premises_type',
+            'count_floors',
+            'count_lots_in_sale',
+            's_range',
+            'min_price',
+            'infrastructure',
+            'transport_accessibility',
+            'construction_tech',
+            'trim',
+            'facade',
+            'elevators',
+            'windows',
+            'ventilation',
+            'conditioning',
+            'cadastre',
+            'tax',
+            'content',
+            'contract',
+            'ceilings',
+            'parking',
+            'parking_price',
+            'trade_registration',
+            'mortgage',
+            'installment',
+            'promotions',
+            'complex_infrastructure',
+            'commercial_space',
+            'weekdays_from',
+            'weekdays_to',
+            'weekend_form',
+            'weekend_to',
+            'sales_office_address',
+            'note',
+            'parking_close'
         )
 
 

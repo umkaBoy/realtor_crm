@@ -129,7 +129,8 @@ class Document(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='Изображение')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='images', null=True, on_delete=models.DO_NOTHING)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
     developer = models.ForeignKey('crm.Developer', related_name='images', verbose_name='Застройщик', null=True, on_delete=models.DO_NOTHING)
 
@@ -149,6 +150,7 @@ class Image(models.Model):
         return "0 MB"
 
     get_size.fget.short_description = u'Размер'
+
 
 
     @property

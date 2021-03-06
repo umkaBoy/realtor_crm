@@ -2,13 +2,13 @@
   <v-container style="height: 93vh; overflow: scroll">
     <v-row>
       <v-col
-        :md="developer.contacts && developer.images && developer.contacts.length + developer.images.length === 0 ? 12 : 7"
+        :md="7"
         sm="12"
         cols="12">
         <v-card
-          class="pa-2 text-center"
+          class="pa-2"
         >
-          <h2>Застройщик "{{ developer.name }}"</h2>
+          <h3>Застройщик {{ developer.name }}</h3>
           <span class="grey--text">Дата основания: {{ developer.created_at }}</span>
         </v-card>
         <v-spacer></v-spacer>
@@ -46,10 +46,10 @@
           </span>
         </v-card>
         <v-card>
-          <v-expansion-panels class="elevation-0">
-            <v-expansion-panel>
+          <v-expansion-panels>
+            <v-expansion-panel v-if="developer.description">
               <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
-                <h3 class="primary--text">Информация о застройщике</h3>
+                <h5 class="primary--text">Информация о застройщике</h5>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>{{ developer.description }}</p>
@@ -65,11 +65,12 @@
         <v-card
           class="pa-2"
           outlined
+          color="transparent"
           v-if="developer.images && developer.images.length"
         >
           <v-carousel
             :show-arrows="developer.images.length > 1"
-            :hide-delimiters="developer.images.length < 2"
+            hide-delimiters
             v-model="img"
             :next-icon="icons.mdiMenuRight"
             :prev-icon="icons.mdiMenuLeft"
@@ -80,27 +81,13 @@
             <v-carousel-item
               v-for="(image, i) in developer.images"
               :key="image.id"
+              :src="image.get_url"
             >
-              <v-row align="center" justify="center" class="fill-height">
-                <v-img :src="image.get_url">
-                  <template v-slot:placeholder>
-                    <v-row
-                      class="fill-height ma-0"
-                      align="center"
-                      justify="center"
-                    >
-                      <v-progress-circular
-                        indeterminate
-                        color="grey lighten-5"
-                      ></v-progress-circular>
-                    </v-row>
-                  </template>
-                </v-img>
-              </v-row>
             </v-carousel-item>
           </v-carousel>
         </v-card>
         <v-card
+          color="transparent"
           class="pa-2"
           outlined
           :key="contact.id"
@@ -160,7 +147,7 @@ export default {
   position: relative;
   top: 10px;
 }
-.v-expansion-panel::before {
+.v-sheet {
   box-shadow: none;
 }
 </style>

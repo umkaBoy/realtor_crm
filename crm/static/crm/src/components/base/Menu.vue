@@ -34,7 +34,7 @@
         <v-list-item-icon>
           <v-icon color="primary">{{ icons.mdiDomain }}</v-icon>
         </v-list-item-icon>
-        <v-list-item-title>ЖК</v-list-item-title>
+        <v-list-item-title>Комплексы</v-list-item-title>
       </v-list-item>
     </v-list>
     <template v-slot:append>

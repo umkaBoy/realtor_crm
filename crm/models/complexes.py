@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.html import mark_safe
 from crm.utils.base import images_upload_path
-from crm.consts import TRIM_TYPES
 
 
 class Complex(models.Model):
@@ -29,7 +28,7 @@ class Complex(models.Model):
     infrastructure = models.TextField(verbose_name='Инфраструктура', blank=True, null=False, default='', max_length=2048)
     transport_accessibility = models.TextField(verbose_name='Транспортная доступность', blank=True, null=False, default='', max_length=2048)
     # детали
-    trim = models.CharField(verbose_name='Отделка', blank=True, null=False, max_length=128, choices=TRIM_TYPES)
+    trim = models.CharField(verbose_name='Отделка', blank=True, null=False, max_length=256)
     facade = models.CharField(verbose_name='Фасад', blank=True, null=False, max_length=128, default='')
     elevators = models.CharField(verbose_name='Лифты', blank=True, null=False, max_length=128, default='')
     windows = models.CharField(verbose_name='Окна', blank=True, null=False, max_length=128, default='')
@@ -71,6 +70,31 @@ class Complex(models.Model):
     @property
     def count_lots_in_sale(self):
         return self.old_buildings.all().count() + self.new_buildings.all().count()
+
+    @property
+    def s_range(self):
+        from django.db.models import Max, Min
+        arr = set(self.old_buildings.aggregate(Max('s'), Min('s')).values())
+        arr.update(self.new_buildings.aggregate(Max('s'), Min('s')).values())
+        arr.discard(None)
+        if len(arr):
+            return '{0} - {1}'.format(min(arr), max(arr))
+        return ''
+
+    @property
+    def min_price(self):
+        from django.db.models import Min
+        try:
+            arr = set(self.old_buildings.all()\
+                .aggregate(min_price_m=Min(models.F('price')/models.F('s'), output_field=models.IntegerField())).values())
+            arr.update(list(self.new_buildings.all()\
+                .aggregate(min_price_m=Min(models.F('price')/models.F('s'), output_field=models.IntegerField())).values()))
+            arr.discard(None)
+        except:
+            return ''
+        if len(arr):
+            return '{0}'.format(min(arr))
+        return ''
 
 
 class Corp(models.Model):

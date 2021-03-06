@@ -39,6 +39,7 @@ export default {
   min-height: 100vh;
 }
 body {
+  font-size: 0.9em;
   overflow: hidden; /* Hide scrollbars */
 }
 body::-webkit-scrollbar {

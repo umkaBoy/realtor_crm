@@ -3,14 +3,18 @@
     <v-data-table
       :headers="headers"
       :items="complexes"
+      item-key="id"
       hide-default-footer
-      @click:row="$emit('selectItem', 'complex', $event.id, [!1, !0, !0])"
+      @click:row="$emit('selectItem', 'complex', $event.id, [!1, !0, !0]), selected = [$event]"
       disable-pagination
       disable-sort
+      v-model="selected"
+      single-select
       fixed-header
       :items-per-page="counter"
       class="elevation-1"
-    ></v-data-table>
+    >
+    </v-data-table>
     <div>
       <mugen-scroll
         :handler="fetchData"
@@ -35,6 +39,7 @@ export default {
   },
   data () {
     return {
+      selected: [],
       loading: false,
       counter: 30,
       headers: [

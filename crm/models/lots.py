@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from crm.consts import LOT_STATUSES, TRIM_TYPES, VIEW_FROM_WINDOWS
+from crm.consts import LOT_STATUSES, VIEW_FROM_WINDOWS
 from crm.utils.base import images_upload_path
 import datetime, os
 from django.utils.html import mark_safe
@@ -18,7 +18,7 @@ class Lot(models.Model):
     type_object = models.ForeignKey('crm.PremisesType', verbose_name='Тип объекта', null=True, on_delete=models.SET_NULL)
     floor = models.IntegerField(verbose_name='Этаж', blank=True, null=False, default=0)
     s = models.FloatField(verbose_name='Площадь', null=False, blank=False, default=0)
-    trim = models.CharField(verbose_name='Отделка', choices=TRIM_TYPES, null=False, blank=False, max_length=32)
+    trim = models.CharField(verbose_name='Отделка', null=False, blank=False, max_length=32)
     view_from_windows = models.CharField(verbose_name='Вид из окон', null=False, blank=False, choices=VIEW_FROM_WINDOWS, max_length=32)
     options = models.TextField(verbose_name='Опции', null=False, blank=True, default='')
     reward = models.FloatField(verbose_name='Вознаграждение', null=True, blank=True)
