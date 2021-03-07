@@ -85,10 +85,27 @@ class Complex(models.Model):
     def min_price(self):
         from django.db.models import Min
         try:
-            arr = set(self.old_buildings.all()\
+            arr = set(self.old_buildings.filter(type_object__name__icontains='вартир')\
                 .aggregate(min_price_m=Min(models.F('price')/models.F('s'), output_field=models.IntegerField())).values())
-            arr.update(list(self.new_buildings.all()\
+            arr.update(list(self.new_buildings.filter(type_object__name__icontains='вартир')\
                 .aggregate(min_price_m=Min(models.F('price')/models.F('s'), output_field=models.IntegerField())).values()))
+            arr.discard(None)
+        except:
+            return ''
+        if len(arr):
+            return '{0}'.format(min(arr))
+        return ''
+
+    @property
+    def min_price_apart(self):
+        from django.db.models import Min
+        try:
+            arr = set(self.old_buildings.filter(type_object__name__icontains='партамент') \
+                      .aggregate(
+                min_price_m=Min(models.F('price') / models.F('s'), output_field=models.IntegerField())).values())
+            arr.update(list(self.new_buildings.filter(type_object__name__icontains='партамент') \
+                            .aggregate(
+                min_price_m=Min(models.F('price') / models.F('s'), output_field=models.IntegerField())).values()))
             arr.discard(None)
         except:
             return ''

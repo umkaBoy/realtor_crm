@@ -45,14 +45,31 @@
             </p>
           </span>
         </v-card>
-        <v-card>
-          <v-expansion-panels>
-            <v-expansion-panel v-if="developer.description">
+        <v-card color="transparent" class="pa-2">
+          <v-expansion-panels v-model="panels" multiple>
+            <v-expansion-panel v-show="developer.description">
               <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
                 <h5 class="primary--text">Информация о застройщике</h5>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p>{{ developer.description }}</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel v-if="developer.complexes" v-model="panels">
+              <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+                <h5 class="primary--text">Объекты</h5>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-data-table
+                  :headers="headers"
+                  :items="developer.complexes"
+                  disable-sort
+                  hide-default-footer
+                  disable-pagination
+                  :items-per-page="developer.complexes.length"
+                  class="elevation-0"
+                >
+                </v-data-table>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -126,6 +143,12 @@ export default {
   name: 'MainDeveloper',
   data () {
     return {
+      panels: [1],
+      headers: [
+        { text: 'Имя', value: 'name' },
+        { text: 'В продаже', value: 'count_lots_in_sale' },
+        {text: 'Сдача', value: 'end_of_construction'}
+      ],
       img: 0,
       icons: {
         mdiMenuLeft,

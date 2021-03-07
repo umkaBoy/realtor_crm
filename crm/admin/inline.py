@@ -25,7 +25,7 @@ class DocumentInlineAdmin(TabularInline):
     extra = 0
     model = models.Document
     readonly_fields = ['get_created_at', 'get_size']
-    fields = ['type', 'name', 'file', 'get_created_at', 'get_size']
+    fields = ['type', 'file', 'get_created_at', 'get_size']
 
 
 class ImageInlineAdmin(TabularInline):

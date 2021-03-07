@@ -92,7 +92,6 @@ class Link(models.Model):
 
 
 class Document(models.Model):
-    name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     file = models.FileField(upload_to=documents_upload_path, max_length=512, verbose_name='Файл')
     type = models.CharField(max_length=64, choices=DOCUMENT_TYPES, verbose_name='Тип документа')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='files', null=True, on_delete=models.DO_NOTHING)
@@ -101,7 +100,7 @@ class Document(models.Model):
     class Meta:
         verbose_name = 'Документ'
         verbose_name_plural = 'Документы'
-        ordering = ['name']
+        ordering = ['type']
 
 
     def __str__(self):

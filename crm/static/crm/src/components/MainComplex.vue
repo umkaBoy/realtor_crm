@@ -9,11 +9,11 @@
           min-height="70"
           class="pa-2"
         >
-          <h3>{{ complex.name }}</h3>
-          <span class="grey--text float-right">Застройщик {{ complex.developer.name }}</span>
-          <span class="grey--text"><strong>{{ complex.region.name }}</strong> {{ complex.address }}</span>
+          <h3> {{ complex.name }} </h3>
+          <span class="grey--text float-right"><strong> Застройщик {{ complex.developer.name }} </strong></span>
+          <span class="primary--text"><strong> {{ complex.region.name }}</strong> {{ complex.address }} </span>
         </v-card>
-        <v-card color="transparent">
+        <v-card color="transparent" class="pa-2">
           <v-expansion-panels multiple>
             <v-expansion-panel v-if="complex.description">
               <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
@@ -43,11 +43,11 @@
                       <td>Технология строительства</td>
                       <td>{{ complex.construction_tech.name }}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="complex.count_lots || complex.count_lots === 0">
                       <td>Лоты</td>
                       <td>{{ complex.count_lots }}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="complex.count_lots_in_sale || complex.count_lots_in_sale === 0">
                       <td>В продаже</td>
                       <td>{{ complex.count_lots_in_sale }}</td>
                     </tr>
@@ -55,13 +55,17 @@
                       <td>Площадь</td>
                       <td>{{ complex.s_range }}м²</td>
                     </tr>
-                    <tr>
+                    <tr v-if="complex.count_floors">
                       <td>Этажность</td>
                       <td>{{ complex.count_floors }}</td>
                     </tr>
-                    <tr v-if="complex.min_price">
+                    <tr v-if="complex.min_price_apart">
                       <td>Апартаменты</td>
-                      <td>от {{ complex.min_price }}₽ за м²</td>
+                      <td>от {{ humanized_sum(complex.min_price_apart) }}₽ за м²</td>
+                    </tr>
+                    <tr v-if="complex.min_price">
+                      <td>Квартиры</td>
+                      <td>от {{ humanized_sum(complex.min_price) }}₽ за м²</td>
                     </tr>
                     <tr>
                       <td>Начало</td>
@@ -71,11 +75,11 @@
                       <td>Сдача</td>
                       <td>{{ complex.end_of_construction }}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="complex.infrastructure">
                       <td>Инфраструктура</td>
                       <td>{{ complex.infrastructure }}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="complex.transport_accessibility">
                       <td>Транспортная доступность</td>
                       <td>{{ complex.transport_accessibility }}</td>
                     </tr>
@@ -283,9 +287,9 @@
                 v-if="complex.contacts && complex.contacts.length"
               >
                 <h5 class="primary--text">{{contact.name}}</h5>
-                <a :href="`tel:${contact.phone}`" class="grey--text" v-if="contact.phone">{{contact.phone}}<br></a>
-                <a :href="`mailto:${contact.email}`" class="grey--text" v-if="contact.email">{{contact.email}}</a>
-                <p v-if="contact.note">{{contact.note}}</p>
+                <a :href="`tel:${contact.phone}`" v-if="contact.phone">{{contact.phone}}<br></a>
+                <a :href="`mailto:${contact.email}`" v-if="contact.email">{{contact.email}}</a>
+                <p class="grey--text" v-if="contact.note">{{contact.note}}</p>
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -356,6 +360,9 @@ export default {
       if (!url) return ''
       const arrName = url.split('/')
       return arrName[arrName.length - 1]
+    },
+    humanized_sum (sum) {
+      return parseFloat(sum).toLocaleString()
     }
   }
 }

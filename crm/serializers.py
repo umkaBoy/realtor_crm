@@ -31,7 +31,6 @@ class FileSerializer(ModelSerializer):
     class Meta:
         model = Document
         fields = (
-            'name',
             'type',
             'get_size',
             'get_created_at',
@@ -134,7 +133,8 @@ class ComplexesShortSerializer(ModelSerializer):
             'name',
             'developer',
             'end_of_construction',
-            'address'
+            'address',
+            'count_lots_in_sale'
         )
 
 
@@ -179,6 +179,7 @@ class MainDeveloperSerializer(ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     description = serializers.SerializerMethodField()
     contacts = ContactsSerializer(many=True, read_only=True)
+    complexes = ComplexesShortSerializer(many=True, read_only=True)
 
     def get_description(self, instance):
         from django.utils.safestring import mark_safe
@@ -196,7 +197,8 @@ class MainDeveloperSerializer(ModelSerializer):
             'description',
             'objects_delivered',
             'objects_under_construction',
-            'images'
+            'images',
+            'complexes'
         )
 
 
@@ -235,6 +237,7 @@ class MainComplexSerilizer(ModelSerializer):
             'count_lots_in_sale',
             's_range',
             'min_price',
+            'min_price_apart',
             'infrastructure',
             'transport_accessibility',
             'construction_tech',
