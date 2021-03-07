@@ -7,7 +7,7 @@
       hide-default-header
       item-key="id"
       v-model="selected"
-      @click:row="selected = [$event]"
+      @click:row="selectItems($event.id), selected = [$event]"
       disable-pagination
       disable-sort
       fixed-header
@@ -40,6 +40,18 @@ export default {
   },
   computed: {
     ...mapGetters('Page', {complexes: 'getSubComp'})
+  },
+  methods: {
+    selectItems (id) {
+      const itemsForRemove = document.querySelectorAll('.v-data-table__selected')
+      itemsForRemove.forEach(item => {
+        item.classList.remove('v-data-table__selected')
+      })
+      const items = document.querySelectorAll(`.complex-${id}`)
+      items.forEach(item => {
+        item.closest('tr').classList.add('v-data-table__selected')
+      })
+    }
   }
 }
 </script>

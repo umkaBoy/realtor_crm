@@ -87,10 +87,10 @@ body::-webkit-scrollbar {
 
 .v-data-table__selected,
 .v-list-item:hover {
-  background-color: #e4f2ff !important;
+  background-color: #f0f7ff !important;
 }
 .v-data-table__selected:hover {
-  background-color: #d5e2ef !important;
+  background-color: #dfe9f3 !important;
 }
 img {
   object-fit: cover;

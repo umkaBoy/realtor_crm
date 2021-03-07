@@ -4,7 +4,7 @@
       :headers="headers"
       :items="lots"
       item-key="id"
-      @click:row="$emit('selectItem', $event.type_building, $event.id, [!1, !0, !0]), selected = [$event]"
+      @click:row="clearSelect(), selected = [$event], $emit('selectItem', $event.type_building, $event.id, [!1, !0, !0])"
       hide-default-footer
       v-model="selected"
       disable-pagination
@@ -71,6 +71,12 @@ export default {
     ...mapGetters('Page', {isFinished: 'isFinished'})
   },
   methods: {
+    clearSelect () {
+      const itemsForRemove = document.querySelectorAll('.v-data-table__selected')
+      itemsForRemove.forEach(item => {
+        item.classList.remove('v-data-table__selected')
+      })
+    },
     fetchData () {
       this.loading = true
       this.$store.dispatch('Page/load', {
