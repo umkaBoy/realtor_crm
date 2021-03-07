@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
 from crm.models import Developer, Complex, NewBuildingLot, OldBuildingLot, Image, Contacts, Region, \
-    ObjectClass, PremisesType, ConstructionTech
+    ObjectClass, PremisesType, ConstructionTech, Link, Document
 
 
 class ImageSerializer(ModelSerializer):
@@ -12,6 +12,29 @@ class ImageSerializer(ModelSerializer):
         model = Image
         fields = (
             'id',
+            'get_url'
+        )
+
+
+class LinkSerializer(ModelSerializer):
+
+    class Meta:
+        model = Link
+        fields = (
+            'name',
+            'link'
+        )
+
+
+class FileSerializer(ModelSerializer):
+
+    class Meta:
+        model = Document
+        fields = (
+            'name',
+            'type',
+            'get_size',
+            'get_created_at',
             'get_url'
         )
 
@@ -186,6 +209,8 @@ class MainComplexSerilizer(ModelSerializer):
     object_class = ClassObjectSerializer()
     premises_type = PremisesTypeSerializer()
     construction_tech = ConstructionTechSerializer()
+    links = LinkSerializer(many=True, read_only=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = Complex
@@ -196,6 +221,7 @@ class MainComplexSerilizer(ModelSerializer):
             'images',
             'name',
             'contacts',
+            'links',
             'region',
             'address',
             'description',
@@ -220,6 +246,7 @@ class MainComplexSerilizer(ModelSerializer):
             'conditioning',
             'cadastre',
             'tax',
+            'files',
             'content',
             'contract',
             'ceilings',

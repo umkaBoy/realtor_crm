@@ -38,7 +38,6 @@ class ImageInlineAdmin(TabularInline):
 
     def image_preview(self, obj):
         # ex. the name of column is "image"
-        print(obj.image)
         if obj.image:
             return mark_safe(
                 '<img src="{0}" width="250" height="auto" style="object-fit:contain" />'.format(obj.image.url))

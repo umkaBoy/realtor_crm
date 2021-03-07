@@ -75,9 +75,9 @@ class Contacts(models.Model):
 
 
 class Link(models.Model):
-    name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
+    name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=30, default='')
     link = models.CharField(verbose_name='Ссылка', max_length=128, null=False, blank=True, default='')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='links', null=True, on_delete=models.DO_NOTHING)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -95,7 +95,7 @@ class Document(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     file = models.FileField(upload_to=documents_upload_path, max_length=512, verbose_name='Файл')
     type = models.CharField(max_length=64, choices=DOCUMENT_TYPES, verbose_name='Тип документа')
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', null=True, on_delete=models.DO_NOTHING)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='files', null=True, on_delete=models.DO_NOTHING)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.DO_NOTHING)
 
     class Meta:
@@ -124,6 +124,13 @@ class Document(models.Model):
         return ''
 
     get_created_at.fget.short_description = u'Дата загрузки'
+
+
+    @property
+    def get_url(self):
+        if self.file:
+            return self.file.url
+        return ''
 
 
 

@@ -86,19 +86,28 @@
             </v-carousel-item>
           </v-carousel>
         </v-card>
-        <v-card
-          color="transparent"
-          class="pa-2"
-          outlined
-          :key="contact.id"
-          v-for="(contact, i) in developer.contacts"
-          v-if="developer.contacts && developer.contacts.length"
-        >
-          <h5 class="primary--text">{{contact.name}}</h5>
-          <a :href="`tel:${contact.phone}`" class="grey--text" v-if="contact.phone">{{contact.phone}}<br></a>
-          <a :href="`mailto:${contact.email}`" class="grey--text" v-if="contact.email">{{contact.email}}</a>
-          <p v-if="contact.note">{{contact.note}}</p>
-        </v-card>
+        <v-expansion-panels multiple>
+          <v-expansion-panel v-if="developer.contacts && developer.contacts.length" style="background-color: transparent !important;">
+            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+              <h5 class="primary--text text-right">Контакты</h5>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card
+                color="transparent"
+                class="pa-2"
+                outlined
+                :key="contact.id"
+                v-for="(contact, i) in developer.contacts"
+                v-if="developer.contacts && developer.contacts.length"
+              >
+                <h5 class="primary--text">{{contact.name}}</h5>
+                <a :href="`tel:${contact.phone}`" class="grey--text" v-if="contact.phone">{{contact.phone}}<br></a>
+                <a :href="`mailto:${contact.email}`" class="grey--text" v-if="contact.email">{{contact.email}}</a>
+                <p v-if="contact.note">{{contact.note}}</p>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
     </v-row>
   </v-container>

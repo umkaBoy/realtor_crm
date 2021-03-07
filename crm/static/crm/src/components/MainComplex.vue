@@ -1,6 +1,6 @@
 <template>
   <v-container style="height: 93vh; overflow: scroll">
-    <v-row v-if="complex">
+    <v-row v-if="complex.name">
       <v-col
         :md="7"
         sm="12"
@@ -254,15 +254,73 @@
           color="transparent"
           class="pa-2"
           outlined
-          :key="contact.id"
-          v-for="(contact, i) in complex.contacts"
-          v-if="complex.contacts && complex.contacts.length"
+          v-if="complex.links && complex.links.length"
         >
-          <h5 class="primary--text">{{contact.name}}</h5>
-          <a :href="`tel:${contact.phone}`" class="grey--text" v-if="contact.phone">{{contact.phone}}<br></a>
-          <a :href="`mailto:${contact.email}`" class="grey--text" v-if="contact.email">{{contact.email}}</a>
-          <p v-if="contact.note">{{contact.note}}</p>
+          <v-chip
+            class="ma-2"
+            color="primary"
+            outlined
+            v-for="(link, i) in complex.links"
+            :key="i"
+            :href="link.link"
+            target="_blank"
+          >
+            {{ link.name }}
+          </v-chip>
         </v-card>
+        <v-expansion-panels multiple>
+          <v-expansion-panel v-if="complex.contacts && complex.contacts.length" style="background-color: transparent !important;">
+            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+              <h5 class="primary--text text-right">Контакты</h5>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card
+                color="transparent"
+                class="pa-2"
+                outlined
+                :key="contact.id"
+                v-for="(contact, i) in complex.contacts"
+                v-if="complex.contacts && complex.contacts.length"
+              >
+                <h5 class="primary--text">{{contact.name}}</h5>
+                <a :href="`tel:${contact.phone}`" class="grey--text" v-if="contact.phone">{{contact.phone}}<br></a>
+                <a :href="`mailto:${contact.email}`" class="grey--text" v-if="contact.email">{{contact.email}}</a>
+                <p v-if="contact.note">{{contact.note}}</p>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel v-if="complex.files && complex.files.length" style="background-color: transparent !important;">
+            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+              <h5 class="primary--text text-right">Презентации и документы</h5>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card
+                color="transparent"
+                class="pa-2"
+                outlined
+                v-for="(type, i) in new Set(complex.files.map(obj => obj.type))"
+                :key="i"
+              >
+                <h4 class="primary--text">{{ type }}</h4>
+                <v-card
+                  color="transparent"
+                  class="pa-2"
+                  outlined
+                  v-for="(file, index) in complex.files.filter(obj => obj.type === type)"
+                  :key="index"
+                >
+                  <h5 v-if="file.name">{{ file.name }}</h5>
+                  <a :href="file.get_url">
+                    скачать <span>{{get_filename(file.get_url)}}</span>
+                  </a>
+                  <p class="grey--text">
+                    <span>{{ file.get_created_at }}</span> | <span>{{file.get_size}}</span>
+                  </p>
+                </v-card>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
     </v-row>
   </v-container>
@@ -292,12 +350,19 @@ export default {
   },
   computed: {
     ...mapGetters('Page', {complex: 'getMain'})
+  },
+  methods: {
+    get_filename (url) {
+      if (!url) return ''
+      const arrName = url.split('/')
+      return arrName[arrName.length - 1]
+    }
   }
 }
 </script>
 
 <style scoped>
-  .v-sheet {
-    box-shadow: none;
-  }
+.v-sheet {
+  box-shadow: none;
+}
 </style>
