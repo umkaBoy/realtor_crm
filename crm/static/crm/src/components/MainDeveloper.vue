@@ -61,6 +61,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-data-table
+                  dense
                   :headers="headers"
                   :items="developer.complexes"
                   disable-sort

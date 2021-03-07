@@ -5,6 +5,9 @@
       :items="complexes"
       hide-default-footer
       hide-default-header
+      item-key="id"
+      v-model="selected"
+      @click:row="selected = [$event]"
       disable-pagination
       disable-sort
       fixed-header
@@ -28,6 +31,7 @@ export default {
   name: 'SubComplexes',
   data () {
     return {
+      selected: [],
       headers: [
         { text: 'Наименование', value: 'name' },
         { text: 'количество лотов', value: 'count_lots_in_sale' }

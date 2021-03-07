@@ -5,15 +5,19 @@
       :items="complexes"
       item-key="id"
       hide-default-footer
-      @click:row="$emit('selectItem', 'complex', $event.id, [!1, !0, !0]), selected = [$event]"
+      @click:row="clearSelect(), selected = [$event], $emit('selectItem', 'complex', $event.id, [!1, !0, !0])"
       disable-pagination
       disable-sort
       v-model="selected"
-      single-select
       fixed-header
       :items-per-page="counter"
       class="elevation-1"
     >
+      <template v-slot:item.id="{ item }">
+        <div :class="'developer-' + item.developer.id">
+          <span>{{item.id}}</span>
+        </div>
+      </template>
     </v-data-table>
     <div>
       <mugen-scroll
@@ -58,6 +62,12 @@ export default {
     ...mapGetters('Page', {isFinished: 'isFinished'})
   },
   methods: {
+    clearSelect () {
+      const itemsForRemove = document.querySelectorAll('.v-data-table__selected')
+      itemsForRemove.forEach(item => {
+        item.classList.remove('v-data-table__selected')
+      })
+    },
     fetchData () {
       this.loading = true
       this.$store.dispatch('Page/load', {

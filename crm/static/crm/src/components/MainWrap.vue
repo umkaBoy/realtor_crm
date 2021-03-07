@@ -2,7 +2,7 @@
     <v-container style="padding-top: 0">
     <v-row dense>
       <v-col cols="12" md="1" sm="12">
-        <a href="#" @click.prevent="$emit('selectGroup')"><v-icon color="primary">{{ icons.mdiArrowLeft }}</v-icon></a>
+        <a href="#" @click.prevent="$emit('selectGroup'), removeSelectedItems()"><v-icon color="primary">{{ icons.mdiArrowLeft }}</v-icon></a>
       </v-col>
       <v-col cols="12" md="3" sm="12" v-if="id !== null && (user.is_superuser || user.is_staff)">
         <a :href="`/admin/crm/${type}/${id}/change/`" target="_blank">
@@ -65,6 +65,14 @@ export default {
       this.$store.dispatch('Page/loadMain',
         {id: this.id, type: this.type},
         {root: true})
+    }
+  },
+  methods: {
+    removeSelectedItems () {
+      const items = document.querySelectorAll('.v-data-table__selected')
+      items.forEach(item => {
+        item.classList.remove('v-data-table__selected')
+      })
     }
   }
 }

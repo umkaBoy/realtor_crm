@@ -7,7 +7,6 @@
       @click:row="$emit('selectItem', $event.type_building, $event.id, [!1, !0, !0]), selected = [$event]"
       hide-default-footer
       v-model="selected"
-      single-select
       disable-pagination
       disable-sort
       fixed-header
@@ -15,8 +14,10 @@
       class="elevation-1"
     >
       <template v-slot:item.url_plan="{ item }">
-        <fc-image :link="item.url_plan">
-        </fc-image>
+        <div :class="'complex-' + item.complex.id">
+          <fc-image :link="item.url_plan">
+          </fc-image>
+        </div>
       </template>
     </v-data-table>
     <div>
