@@ -34,7 +34,8 @@ class FileSerializer(ModelSerializer):
             'type',
             'get_size',
             'get_created_at',
-            'get_url'
+            'get_url',
+            'filename'
         )
 
 

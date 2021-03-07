@@ -104,7 +104,7 @@ class Document(models.Model):
 
 
     def __str__(self):
-        return self.name
+        return self.filename
 
 
     @property
@@ -130,6 +130,10 @@ class Document(models.Model):
         if self.file:
             return self.file.url
         return ''
+
+    @property
+    def filename(self):
+        return os.path.basename(self.file.name)
 
 
 

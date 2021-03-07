@@ -315,7 +315,7 @@
                 >
                   <h5 v-if="file.name">{{ file.name }}</h5>
                   <a :href="file.get_url">
-                    скачать <span>{{get_filename(file.get_url)}}</span>
+                    <span>{{file.filename}}</span>
                   </a>
                   <p class="grey--text">
                     <span>{{ file.get_created_at }}</span> | <span>{{file.get_size}}</span>
@@ -356,11 +356,6 @@ export default {
     ...mapGetters('Page', {complex: 'getMain'})
   },
   methods: {
-    get_filename (url) {
-      if (!url) return ''
-      const arrName = url.split('/')
-      return arrName[arrName.length - 1]
-    },
     humanized_sum (sum) {
       return parseFloat(sum).toLocaleString()
     }
