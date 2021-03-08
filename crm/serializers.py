@@ -153,7 +153,10 @@ class OldBuildingsShortSerializer(ModelSerializer):
             'type_building',
             'price',
             'complex',
-            'url_plan'
+            'url_plan',
+            'n_on_price',
+            'floor',
+            'price_per_m'
         )
 
 
@@ -164,8 +167,11 @@ class NewBuildingsShortSerializer(ModelSerializer):
         model = NewBuildingLot
         fields = (
             'id',
+            'price_per_m',
             'type_building',
+            'floor',
             '__str__',
+            'n_on_price',
             'status',
             'floor',
             's',

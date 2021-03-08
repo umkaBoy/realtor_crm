@@ -19,6 +19,16 @@
           </fc-image>
         </div>
       </template>
+      <template v-slot:item.price="{ item }">
+        <div>
+          {{ humanized_sum(item.price) }}
+        </div>
+      </template>
+      <template v-slot:item.price_per_m="{ item }">
+        <div>
+          {{ humanized_sum(item.price_per_m) }}
+        </div>
+      </template>
     </v-data-table>
     <div>
       <mugen-scroll
@@ -50,16 +60,13 @@ export default {
       loading: false,
       counter: 30,
       headers: [
-        {
-          text: 'планировка',
-          align: 'start',
-          value: 'url_plan'
-        },
+        { text: '№', value: 'n_on_price' },
+        { text: '', value: 'url_plan' },
         { text: 'Наименование', value: '__str__' },
-        { text: 'Статус', value: 'status' },
         { text: 'Этаж', value: 'floor' },
-        { text: 'Стоимость', value: 'price' },
-        { text: 'Площадь', value: 's' }
+        { text: 'Площадь', value: 's' },
+        { text: 'цена, ₽', value: 'price' },
+        { text: 'цена за м², ₽', value: 'price_per_m' }
       ]
     }
   },
@@ -88,6 +95,9 @@ export default {
         this.counter = this.lots.length
         this.loading = false
       }, 10)
+    },
+    humanized_sum (sum) {
+      return parseInt(sum).toLocaleString()
     }
   }
 }

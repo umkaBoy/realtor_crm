@@ -4,6 +4,7 @@ from crm.consts import LOT_STATUSES, VIEW_FROM_WINDOWS
 from crm.utils.base import images_upload_path
 import datetime, os
 from django.utils.html import mark_safe
+from crm import consts
 
 
 
@@ -15,6 +16,7 @@ class Lot(models.Model):
     status = models.CharField(verbose_name='Статус', choices=LOT_STATUSES, blank=False, null=False, max_length=128, default='Свободно')
     # Лот
     n_on_price = models.CharField(verbose_name='№ по прайсу', null=False, blank=True, default='', max_length=64)
+    name = models.CharField(verbose_name='Наименование', null=False, blank=True, max_length=252, choices=consts.NAME_TYPE_ROOMS)
     type_object = models.ForeignKey('crm.PremisesType', verbose_name='Тип объекта', null=True, on_delete=models.SET_NULL)
     floor = models.IntegerField(verbose_name='Этаж', blank=True, null=False, default=0)
     s = models.FloatField(verbose_name='Площадь', null=False, blank=False, default=0)
@@ -28,12 +30,24 @@ class Lot(models.Model):
     comment = models.TextField(verbose_name='Комментарий', null=False, blank=True, default='')
 
     def __str__(self):
-        return '№{0} {1}'.format(self.id, self.type_object)
+        if 'вартир' in self.type_object.name or 'партамент' in self.type_object.name:
+            return '{0} {1}'.format(self.type_object.name, self.name)
+        return self.type_object.name
 
     @property
     def url_plan(self):
         if self.plan:
             return self.plan.plan.url
+        return ''
+
+
+    @property
+    def price_per_m(self):
+        if self.s and self.price:
+            try:
+                return self.price / self.s
+            except:
+                pass
         return ''
 
 

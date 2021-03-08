@@ -357,7 +357,7 @@ export default {
   },
   methods: {
     humanized_sum (sum) {
-      return parseFloat(sum).toLocaleString()
+      return parseInt(sum).toLocaleString()
     }
   }
 }
