@@ -11,6 +11,7 @@
     <v-row class="fill-height bckg">
 <!--    контент-->
       <v-col
+        style="padding: 0"
         class="main-content"
         cols="12"
         sm="12"

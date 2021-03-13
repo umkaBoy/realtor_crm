@@ -1,6 +1,7 @@
 import * as pageApi from '@/api/Page'
 var counter = 0
 var dataPage = null
+var flag = false
 
 export default {
   namespaced: true,
@@ -8,7 +9,8 @@ export default {
     isLoading: false,
     data: [],
     isFinished: false,
-    main: {}
+    main: {},
+    filterObj: {}
   },
   getters: {
     isLoading: state => state.isLoading,
@@ -49,6 +51,9 @@ export default {
     },
     setMain (state, data) {
       state.main = data
+    },
+    setFilter (state, data) {
+      state.filterObj = data
     }
   },
   actions: {
@@ -61,18 +66,21 @@ export default {
         commit('setLoader', flag)
       }
     },
-    async load ({ dispatch, commit }, {page}) {
+    async load ({ dispatch, commit, state }, {page}) {
       dispatch('Page/loading', {flag: true}, {root: true})
       try {
+        if (!flag) flag = true
+        else return null
         if (dataPage !== page) {
           dataPage = page
           counter = 0
           commit('setData', [])
           counter++
         }
-        const data = await pageApi.loadData(counter, page)
+        const data = await pageApi.loadData(counter, page, state.filterObj)
         counter++
         commit('setData', data)
+        flag = false
       } catch (e) {
         dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить список объектов', timeout: 5000 }, { root: true })
       } finally {
@@ -88,6 +96,16 @@ export default {
         dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить данный объект', timeout: 5000 }, { root: true })
       } finally {
         dispatch('Page/loading', {flag: false, timeout: 300}, {root: true})
+      }
+    },
+    setFilter ({ dispatch, commit }, data) {
+      try {
+        commit('setFilter', data)
+        let copyPage = dataPage
+        dataPage = null
+        dispatch('Page/load', {page: copyPage}, {root: true})
+      } catch (e) {
+        console.log('Не удалось отфильтровать')
       }
     }
   }

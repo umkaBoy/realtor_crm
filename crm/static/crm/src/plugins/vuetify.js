@@ -1,8 +1,10 @@
 import '@mdi/font/css/materialdesignicons.css'
 import Vue from 'vue'
 import Vuetify from 'vuetify'
+import VuetifyMoney from 'vuetify-money'
 
 Vue.use(Vuetify)
+Vue.use(VuetifyMoney)
 
 const vuetify = new Vuetify({
   theme: {
@@ -21,3 +23,5 @@ const vuetify = new Vuetify({
 })
 
 export default vuetify
+
+

@@ -46,7 +46,7 @@ body::-webkit-scrollbar {
     display: none;
 }
 ::-webkit-scrollbar-track {border-radius: 4px;}
-::-webkit-scrollbar {width: 6px;}
+::-webkit-scrollbar {width: 1px;}
 ::-webkit-scrollbar-thumb {border-radius: 4px;background: #f0f2f5;}
 :hover::-webkit-scrollbar-thumb {background: #6a7d9b;}
 
@@ -66,7 +66,7 @@ body::-webkit-scrollbar {
 }
 
 .block-1 {
-  width: 30%;
+  width: 22%;
 }
 
 .block-2 {

@@ -12,10 +12,10 @@
       fixed-header
       v-model="selected"
       :items-per-page="developers.length"
-      class="elevation-1"
+      class="elevation-0"
     >
       <template v-slot:item.name="{ item }">
-        <a href="#" @click.prevent="$emit('selectItem', 'developer', item.id)"><strong>{{ item.name }}</strong></a>
+        <a href="#" @click.prevent="$emit('selectItem', 'developer', item.id)">{{ item.name }}</a>
       </template>
       <template v-slot:item.count_complexes="{ item }">
         <a href="#" @click.prevent="$emit('selectGroup')" class="float-right">{{ item.count_complexes}} жк</a>

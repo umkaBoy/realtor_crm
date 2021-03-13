@@ -1,12 +1,12 @@
 <template>
-  <v-container style="height: 93vh; overflow: scroll">
+  <div style="height: 93vh; overflow: scroll">
     <v-row>
       <v-col
         :md="7"
         sm="12"
         cols="12">
         <v-card
-          class="pa-2"
+          class="pa-1"
         >
           <h3>Застройщик {{ developer.name }}</h3>
           <span class="grey--text">Дата основания: {{ developer.created_at }}</span>
@@ -14,7 +14,7 @@
         <v-spacer></v-spacer>
         <v-card
           v-if="percentage_objects_under_construction"
-          class="pa-2"
+          class="pa-1"
         >
           <span>
             <v-progress-circular
@@ -45,7 +45,7 @@
             </p>
           </span>
         </v-card>
-        <v-card color="transparent" class="pa-2">
+        <v-card color="transparent">
           <v-expansion-panels v-model="panels" multiple>
             <v-expansion-panel v-show="developer.description">
               <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
@@ -81,7 +81,7 @@
         sm="12"
         cols="12">
         <v-card
-          class="pa-2"
+          class="pa-1"
           outlined
           color="transparent"
           v-if="developer.images && developer.images.length"
@@ -112,7 +112,7 @@
             <v-expansion-panel-content>
               <v-card
                 color="transparent"
-                class="pa-2"
+                class="pa-1"
                 outlined
                 :key="contact.id"
                 v-for="(contact, i) in developer.contacts"
@@ -128,7 +128,7 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -388,6 +388,7 @@ class NewBuildingLotAdmin(LotAdmin):
                 'lease',
             )}),
             ('Информация по лоту', {'fields': (
+                'name',
                 'n_on_price',
                 'type_object',
                 'corp',
@@ -421,6 +422,7 @@ class OldBuildingLotAdmin(LotAdmin):
                 'lease',
             )}),
             ('Информация по лоту', {'fields': (
+                'name',
                 'n_on_price',
                 'type_object',
                 'corp',

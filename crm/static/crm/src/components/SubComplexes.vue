@@ -12,10 +12,10 @@
       disable-sort
       fixed-header
       :items-per-page="complexes.length"
-      class="elevation-1"
+      class="elevation-0"
     >
       <template v-slot:item.name="{ item }">
-        <a href="#" @click.prevent="$emit('selectItem', 'complex', item.id)"><strong>{{ item.name }}</strong></a>
+        <a href="#" @click.prevent="$emit('selectItem', 'complex', item.id)">{{ item.name }}</a>
       </template>
       <template v-slot:item.count_lots_in_sale="{ item }">
         <a href="#" @click.prevent="$emit('selectGroup')" class="float-right">{{ item.count_lots_in_sale }} лотов</a>

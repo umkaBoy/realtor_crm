@@ -1,5 +1,5 @@
 <template>
-  <v-container style="height: 93vh; overflow: scroll">
+  <div style="height: 93vh; overflow: scroll">
     <v-row v-if="complex.name">
       <v-col
         :md="7"
@@ -7,13 +7,13 @@
         cols="12">
         <v-card
           min-height="70"
-          class="pa-2"
+          class="pa-1"
         >
           <h3> {{ complex.name }} </h3>
           <span class="grey--text float-right"><strong> Застройщик {{ complex.developer.name }} </strong></span>
           <span class="primary--text"><strong> {{ complex.region.name }}</strong> {{ complex.address }} </span>
         </v-card>
-        <v-card color="transparent" class="pa-2">
+        <v-card color="transparent">
           <v-expansion-panels multiple>
             <v-expansion-panel v-if="complex.description">
               <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
@@ -231,7 +231,7 @@
         sm="12"
         cols="12">
         <v-card
-          class="pa-2"
+          class="pa-1"
           outlined
           color="transparent"
           v-if="complex.images && complex.images.length"
@@ -256,7 +256,7 @@
         </v-card>
         <v-card
           color="transparent"
-          class="pa-2"
+          class="pa-1"
           outlined
           v-if="complex.links && complex.links.length"
         >
@@ -280,7 +280,7 @@
             <v-expansion-panel-content>
               <v-card
                 color="transparent"
-                class="pa-2"
+                class="pa-1"
                 outlined
                 :key="contact.id"
                 v-for="(contact, i) in complex.contacts"
@@ -300,7 +300,7 @@
             <v-expansion-panel-content>
               <v-card
                 color="transparent"
-                class="pa-2"
+                class="pa-1"
                 outlined
                 v-for="(type, i) in new Set(complex.files.map(obj => obj.type))"
                 :key="i"
@@ -308,7 +308,7 @@
                 <h4 class="primary--text">{{ type }}</h4>
                 <v-card
                   color="transparent"
-                  class="pa-2"
+                  class="pa-1"
                   outlined
                   v-for="(file, index) in complex.files.filter(obj => obj.type === type)"
                   :key="index"
@@ -327,7 +327,7 @@
         </v-expansion-panels>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>

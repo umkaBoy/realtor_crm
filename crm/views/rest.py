@@ -9,6 +9,7 @@ from crm.models.lots import OldBuildingLot, NewBuildingLot
 from crm.models.developers import Developer
 from itertools import chain
 from django.shortcuts import get_object_or_404
+from django.db.models import F
 
 
 
@@ -26,14 +27,43 @@ class LoadDataRest(APIView):
     ser1 = NewBuildingsShortSerializer
     ser2 = ComplexesShortSerializer
 
+    def is_empty(self, value):
+        return value == None or value == ''
+
+    def filter_by(self, querySet, property, value):
+        if hasattr(querySet.model, property.split('__')[0]) and not self.is_empty(value):
+            return querySet.exclude(**{property: value})
+        return querySet
+
+
     def post(self, request, *args, **kwargs):
         page = request.data.get('page')
         counter = request.data.get('counter')
+        filter = request.data.get('filter')
+
         if page == 'complexes':
             objs = Complex.objects.all().order_by('developer')
         if page == 'lots':
             new_buildings = NewBuildingLot.objects.all().order_by('complex')
             old_buildings = OldBuildingLot.objects.all().order_by('complex')
+            price_for = filter.get('priceFor')
+            for key, value in filter.items():
+                if self.is_empty(value):
+                    continue
+                if key == 'selectedType':
+                    if value == 'new':
+                        old_buildings = old_buildings.exclude(id__gt=0)
+                    if value == 'old':
+                        new_buildings = new_buildings.exclude(id__gt=0)
+                if key == 'bedroom':
+                    new_buildings = new_buildings.filter(name__in=value)
+                    old_buildings = old_buildings.filter(name__in=value)
+                if price_for == 'м²' and (key == 'price__gt' or key == 'price__lt'):
+                    key = 'price_m__{0}'.format(key.split('__')[1])
+                    new_buildings = new_buildings.annotate(price_m=F('price') / F('s')).exclude(**{key: int(value)})
+                    old_buildings = old_buildings.annotate(price_m=F('price') / F('s')).exclude(**{key: int(value)})
+                new_buildings = self.filter_by(new_buildings, key, value)
+                old_buildings = self.filter_by(old_buildings, key, value)
             objs = list(
                 sorted(
                     chain(new_buildings, old_buildings),

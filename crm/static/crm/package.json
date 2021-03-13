@@ -17,6 +17,7 @@
     "vue-mugen-scroll": "^0.2.6",
     "vue-router": "^3.0.1",
     "vuetify": "^2.4.4",
+    "vuetify-money": "^1.2.0",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

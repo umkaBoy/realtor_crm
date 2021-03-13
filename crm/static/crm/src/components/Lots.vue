@@ -11,7 +11,7 @@
       disable-sort
       fixed-header
       :items-per-page="counter"
-      class="elevation-1"
+      class="elevation-0"
     >
       <template v-slot:item.url_plan="{ item }">
         <div :class="'complex-' + item.complex.id">

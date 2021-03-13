@@ -1,9 +1,10 @@
 import http from '@/api/Http'
 
-export async function loadData (counter, page) {
+export async function loadData (counter, page, filter) {
   const params = {
     counter,
-    page
+    page,
+    filter
   }
   let { data } = await http.post('load-data', params)
   return data

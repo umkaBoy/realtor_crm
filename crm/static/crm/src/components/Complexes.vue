@@ -11,7 +11,7 @@
       v-model="selected"
       fixed-header
       :items-per-page="counter"
-      class="elevation-1"
+      class="elevation-0"
     >
       <template v-slot:item.id="{ item }">
         <div :class="'developer-' + item.developer.id">
