@@ -5,8 +5,7 @@ from crm.utils.base import images_upload_path
 
 
 class Complex(models.Model):
-    updated_by = models.ForeignKey(User, verbose_name='Кем изменена', on_delete=models.DO_NOTHING, \
-                                      blank=False, null=False)
+    updated_by = models.ForeignKey(User, verbose_name='Кем изменена', on_delete=models.SET_NULL, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=False, verbose_name='Дата изменения')
 
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')

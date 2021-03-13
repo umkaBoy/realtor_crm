@@ -94,7 +94,8 @@ class DeveloperAdmin(ModelAdmin):
     ]
     inlines = (
         ContactsInlineAdmin,
-        ImageInlineAdmin
+        ImageInlineAdmin,
+        LinkInlineAdmin
     )
 
     def get_fieldsets(self, request, obj=None):
