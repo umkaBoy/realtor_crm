@@ -28,7 +28,7 @@ class LoadDataRest(APIView):
     ser2 = ComplexesShortSerializer
 
     def is_empty(self, value):
-        return value == None or value == ''
+        return value == None or value == '' or value == []
 
     def filter_by(self, querySet, property, value):
         if hasattr(querySet.model, property.split('__')[0]) and not self.is_empty(value):
