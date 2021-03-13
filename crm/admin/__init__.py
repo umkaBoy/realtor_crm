@@ -89,8 +89,7 @@ class DeveloperAdmin(ModelAdmin):
     )
     readonly_fields = ['updated_by', 'updated_at']
     search_fields = [
-        'name',
-        'contact_person',
+        'name'
     ]
     inlines = (
         ContactsInlineAdmin,
