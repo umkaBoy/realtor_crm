@@ -14,8 +14,8 @@
       class="elevation-0"
     >
       <template v-slot:item.url_plan="{ item }">
-        <div :class="'complex-' + item.complex.id">
-          <fc-image :link="item.url_plan">
+        <div :class="'complex-' + item.complex.id" >
+          <fc-image :link="item.url_plan" v-if="item.url_plan">
           </fc-image>
         </div>
       </template>

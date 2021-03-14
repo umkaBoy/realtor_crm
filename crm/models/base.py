@@ -63,7 +63,7 @@ class Contacts(models.Model):
                                  blank=True, null=True)
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='contacts',
                                   on_delete=models.CASCADE, blank=True, null=True)
-    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.CASCADE)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='contacts', null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Контакт'
@@ -78,7 +78,7 @@ class Link(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=30, default='')
     link = models.CharField(verbose_name='Ссылка', max_length=128, null=False, blank=True, default='')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='links', null=True, on_delete=models.CASCADE)
-    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.CASCADE)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='links', null=True, on_delete=models.CASCADE)
     developer = models.ForeignKey('crm.Developer', verbose_name='застройщик', null=True, on_delete=models.CASCADE)
 
     class Meta:
@@ -96,7 +96,7 @@ class Document(models.Model):
     file = models.FileField(upload_to=documents_upload_path, max_length=512, verbose_name='Файл')
     type = models.CharField(max_length=64, choices=DOCUMENT_TYPES, verbose_name='Тип документа')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='files', null=True, on_delete=models.CASCADE)
-    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.CASCADE)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='files', null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Документ'
@@ -142,7 +142,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to=images_upload_path, null=False, verbose_name='Изображение')
 
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='images', null=True, on_delete=models.CASCADE)
-    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', null=True, on_delete=models.CASCADE)
+    lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='images', null=True, on_delete=models.CASCADE)
     developer = models.ForeignKey('crm.Developer', related_name='images', verbose_name='Застройщик', null=True, on_delete=models.CASCADE)
 
     class Meta:

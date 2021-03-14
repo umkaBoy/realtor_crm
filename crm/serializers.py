@@ -281,23 +281,41 @@ class MainComplexSerilizer(ModelSerializer):
 
 class MainOldSerilizer(ModelSerializer):
     updated_by = ProfileSerializer(read_only=True)
+    images = ImageSerializer(many=True, read_only=True)
+    contacts = ContactsSerializer(many=True, read_only=True)
+    links = LinkSerializer(many=True, read_only=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = OldBuildingLot
         fields = (
             'id',
             'updated_by',
-            'updated_at'
+            'updated_at',
+            '__str__',
+            'files',
+            'contacts',
+            'links',
+            'images'
         )
 
 
 class MainNewSerilizer(ModelSerializer):
     updated_by = ProfileSerializer(read_only=True)
+    images = ImageSerializer(many=True, read_only=True)
+    contacts = ContactsSerializer(many=True, read_only=True)
+    links = LinkSerializer(many=True, read_only=True)
+    files = FileSerializer(many=True)
 
     class Meta:
         model = NewBuildingLot
         fields = (
             'id',
             'updated_by',
-            'updated_at'
+            'updated_at',
+            '__str__',
+            'files',
+            'contacts',
+            'links',
+            'images'
         )
