@@ -184,8 +184,7 @@ class Image(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(verbose_name='Наименование', null=False, blank=False, unique=True, default='', max_length=128)
-    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='tags', null=True,
-                                on_delete=models.CASCADE)
+    complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='tags', null=True, on_delete=models.CASCADE)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='tags', null=True, on_delete=models.CASCADE)
 
     class Meta:
