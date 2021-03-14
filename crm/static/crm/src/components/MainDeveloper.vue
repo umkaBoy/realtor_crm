@@ -97,7 +97,7 @@
             show-arrows-on-hover
             height="300">
             <v-carousel-item
-              v-for="(image, i) in developer.images"
+              v-for="(image) in developer.images"
               :key="image.id"
               :src="image.get_url"
             >
@@ -115,7 +115,7 @@
                 class="pa-1"
                 outlined
                 :key="contact.id"
-                v-for="(contact, i) in developer.contacts"
+                v-for="(contact) in developer.contacts"
                 v-if="developer.contacts && developer.contacts.length"
               >
                 <h5 class="primary--text">{{contact.name}}</h5>

@@ -23,5 +23,3 @@ const vuetify = new Vuetify({
 })
 
 export default vuetify
-
-

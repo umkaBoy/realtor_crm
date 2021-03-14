@@ -189,7 +189,8 @@ class ComplexAdmin(ModelAdmin):
                 'count_lots',
                 'count_floors',
                 'infrastructure',
-                'transport_accessibility'
+                'transport_accessibility',
+                'reward'
             )}),
             ('Детали', {'fields': (
                 'trim',

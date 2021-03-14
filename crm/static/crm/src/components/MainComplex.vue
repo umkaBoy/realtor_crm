@@ -185,6 +185,10 @@
                       <td>Коммерческие площади</td>
                       <td>{{ complex.commercial_space }}</td>
                     </tr>
+                    <tr v-if="complex.reward">
+                      <td>Вознаграждение</td>
+                      <td>{{ complex.reward }}</td>
+                    </tr>
                   </tbody>
                 </template>
               </v-simple-table>
@@ -247,7 +251,7 @@
             show-arrows-on-hover
             height="300">
             <v-carousel-item
-              v-for="(image, i) in complex.images"
+              v-for="(image) in complex.images"
               :key="image.id"
               :src="image.get_url"
             >
@@ -283,7 +287,7 @@
                 class="pa-1"
                 outlined
                 :key="contact.id"
-                v-for="(contact, i) in complex.contacts"
+                v-for="(contact) in complex.contacts"
                 v-if="complex.contacts && complex.contacts.length"
               >
                 <h5 class="primary--text">{{contact.name}}</h5>

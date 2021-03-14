@@ -55,6 +55,7 @@ class Complex(models.Model):
     sales_office_address = models.TextField(null=False, default='', blank=True, verbose_name='Адрес офиса продаж', max_length=256)
     note = models.TextField(null=False, default='', blank=True, verbose_name='Примечание', max_length=516)
     parking_close = models.TextField(null=False, default='', blank=True, verbose_name='Паркинг', max_length=256)
+    reward = models.CharField(null=True, verbose_name='Вознаграждение', blank=True, max_length=256)
 
 
 

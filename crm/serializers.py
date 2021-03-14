@@ -225,6 +225,7 @@ class MainComplexSerilizer(ModelSerializer):
         model = Complex
         fields = (
             'id',
+            'reward',
             'updated_by',
             'updated_at',
             'images',
