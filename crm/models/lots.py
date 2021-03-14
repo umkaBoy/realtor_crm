@@ -26,7 +26,7 @@ class Lot(models.Model):
     reward = models.FloatField(verbose_name='Вознаграждение', null=True, blank=True)
     currency = models.CharField(verbose_name='Цена в валюте', null=False, blank=True, default='', max_length=32)
     price = models.FloatField(verbose_name='Цена в руб.', null=False, blank=False, default=0)
-    plan = models.ForeignKey('crm.Plan', verbose_name='План помещения', null=True, on_delete=models.DO_NOTHING)
+    plan = models.ForeignKey('crm.Plan', verbose_name='План помещения', null=True, blank=True, default='', on_delete=models.DO_NOTHING)
     comment = models.TextField(verbose_name='Комментарий', null=False, blank=True, default='')
 
     def __str__(self):

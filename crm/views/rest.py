@@ -70,7 +70,7 @@ class LoadDataRest(APIView):
                     key=lambda objects: objects.id
                 ))
 
-        paginator = Paginator(objs, 20)
+        paginator = Paginator(objs, 30)
         try:
             data_page = paginator.page(counter)
         except Exception:
