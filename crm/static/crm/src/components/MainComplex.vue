@@ -1,6 +1,6 @@
 <template>
   <div style="height: 93vh; overflow: scroll">
-    <v-row v-if="complex.name">
+    <v-row v-if="complex">
       <v-col
         :md="7"
         sm="12"

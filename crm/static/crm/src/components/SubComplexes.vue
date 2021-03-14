@@ -51,6 +51,7 @@ export default {
       items.forEach(item => {
         item.closest('tr').classList.add('v-data-table__selected')
       })
+      items[0].scrollIntoView()
     }
   }
 }
