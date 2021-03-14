@@ -45,3 +45,9 @@ class ImageInlineAdmin(TabularInline):
             return '(No image)'
 
     image_preview.short_description = 'Preview'
+
+
+class TagInlineAdmin(TabularInline):
+    extra = 0
+    model = models.Tag
+    fields = ['name']

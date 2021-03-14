@@ -171,6 +171,7 @@ class ComplexAdmin(ModelAdmin):
         ImageInlineAdmin,
         DocumentInlineAdmin,
         ContactsInlineAdmin,
+        TagInlineAdmin
     )
 
     def get_fieldsets(self, request, obj=None):
@@ -334,6 +335,7 @@ class LotAdmin(ModelAdmin):
         LinkInlineAdmin,
         DocumentInlineAdmin,
         ContactsInlineAdmin,
+        TagInlineAdmin
     )
 
 
