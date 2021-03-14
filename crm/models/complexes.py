@@ -11,18 +11,18 @@ class Complex(models.Model):
     name = models.CharField(verbose_name='Название', blank=True, null=False, max_length=128, default='')
     region = models.ForeignKey('crm.Region', verbose_name='Регион', null=True, on_delete=models.SET_NULL)
     address = models.TextField(max_length=256, verbose_name='Адрес', null=False, blank=False, default='')
-    developer = models.ForeignKey('crm.Developer', verbose_name='Застройщик', null=True, \
+    developer = models.ForeignKey('crm.Developer', verbose_name='Застройщик', null=True, blank=True, \
                                   on_delete=models.CASCADE, related_name='complexes')
-    description = models.TextField(verbose_name='Описание', blank=False, null=False, default='', max_length=2048)
+    description = models.TextField(verbose_name='Описание', blank=True, default='', null=False, max_length=2048)
     start_of_construction = models.CharField(blank=True, null=False, default='', max_length=16, verbose_name='Начало строительства')
     end_of_construction = models.CharField(blank=True, null=False, default='', verbose_name='Сдача', max_length=256)
-    construction_tech = models.ForeignKey('crm.ConstructionTech', verbose_name='Технология строительства', null=True, \
+    construction_tech = models.ForeignKey('crm.ConstructionTech', verbose_name='Технология строительства', null=True, blank=True, \
                                   on_delete=models.SET_NULL)
-    premises_type = models.ForeignKey('crm.PremisesType', verbose_name='Тип помещения', null=True, \
+    premises_type = models.ForeignKey('crm.PremisesType', verbose_name='Тип помещения', null=True, blank=True, \
                                   on_delete=models.SET_NULL)
-    object_class = models.ForeignKey('crm.ObjectClass', verbose_name='Класс объекта', null=True, \
+    object_class = models.ForeignKey('crm.ObjectClass', verbose_name='Класс объекта', null=True, blank=True, \
                                   on_delete=models.SET_NULL)
-    count_lots = models.IntegerField(verbose_name='Количество лотов', blank=False, null=True)
+    count_lots = models.IntegerField(verbose_name='Количество лотов', blank=True, null=True)
     count_floors = models.IntegerField(verbose_name='Этажность', blank=True, null=True)
     infrastructure = models.TextField(verbose_name='Инфраструктура', blank=True, null=False, default='', max_length=2048)
     transport_accessibility = models.TextField(verbose_name='Транспортная доступность', blank=True, null=False, default='', max_length=2048)
