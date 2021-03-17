@@ -10,7 +10,8 @@
           class="pa-1"
         >
           <h3> {{ complex.name }} </h3>
-          <span class="grey--text float-right"><strong> Застройщик {{ complex.developer.name }} </strong></span>
+          <br>
+          <span class="grey--text float-right"><strong> {{ complex.developer.name }} </strong></span>
           <span class="primary--text"><strong> {{ complex.region.name }}</strong> {{ complex.address }} </span>
         </v-card>
         <v-card color="transparent">

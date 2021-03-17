@@ -181,6 +181,7 @@ class ComplexAdmin(ModelAdmin):
                 'region',
                 'address',
                 'developer',
+                'near_metro',
                 'description',
                 'start_of_construction',
                 'end_of_construction',

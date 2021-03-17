@@ -10,6 +10,12 @@
           class="pa-1"
         >
           <h3> {{ lot.__str__ }} </h3>
+          <br>
+          <span class="grey--text float-right" v-if="lot.complex && lot.complex.developer"><strong> {{ lot.complex.developer.name }} </strong></span>
+          <p>
+            <span class="primary--text" v-if="lot.complex"><strong> {{ lot.complex.near_metro }}, </strong> {{ lot.complex.address }} </span><br>
+            <span class="primary--text"><strong> {{ lot.lease }} </strong></span>
+          </p>
         </v-card>
         <v-card color="transparent">
           <v-expansion-panels multiple>
@@ -24,10 +30,10 @@
           class="pa-1"
           outlined
           color="transparent"
-          v-if="lot.images && lot.images.length"
+          v-if="images && images.length"
         >
           <v-carousel
-            :show-arrows="lot.images.length > 1"
+            :show-arrows="images.length > 1"
             hide-delimiters
             v-model="img"
             :next-icon="icons.mdiMenuRight"
@@ -37,7 +43,7 @@
             show-arrows-on-hover
             height="300">
             <v-carousel-item
-              v-for="(image) in lot.images"
+              v-for="(image) in images"
               :key="image.id"
               :src="image.get_url"
             >
@@ -143,7 +149,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Page', {lot: 'getMain'})
+    ...mapGetters('Page', {lot: 'getMain'}),
+    images () {
+      if (this.lot && this.lot.images) {
+        let arr = [{get_url: this.lot.url_plan, id: 0}].concat(this.lot.images).concat(this.lot.complex.images)
+        return arr
+      }
+      return []
+    }
   },
   methods: {
     humanized_sum (sum) {

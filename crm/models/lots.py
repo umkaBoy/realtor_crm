@@ -29,10 +29,13 @@ class Lot(models.Model):
     plan = models.ForeignKey('crm.Plan', verbose_name='План помещения', null=True, blank=True, default='', on_delete=models.DO_NOTHING)
     comment = models.TextField(verbose_name='Комментарий', null=False, blank=True, default='')
 
+
     def __str__(self):
+        price = '{:,}'.format(int(self.price)).replace(',', ' ')
+        end = ', {0} м² за {1}₽'.format(int(self.s), price)
         if 'вартир' in self.type_object.name or 'партамент' in self.type_object.name:
-            return '{0} {1}'.format(self.type_object.name, self.name)
-        return self.type_object.name
+            return '{0} {1}{2}'.format(self.type_object.name, self.name, end)
+        return self.type_object.name + end
 
     @property
     def url_plan(self):

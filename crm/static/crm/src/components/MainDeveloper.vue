@@ -8,7 +8,7 @@
         <v-card
           class="pa-1"
         >
-          <h3>Застройщик {{ developer.name }}</h3>
+          <h3>Застройщик {{ developer.name }}</h3> <br>
           <span class="grey--text">Дата основания: {{ developer.created_at }}</span>
         </v-card>
         <v-spacer></v-spacer>

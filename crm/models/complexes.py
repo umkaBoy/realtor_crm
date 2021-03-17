@@ -13,6 +13,8 @@ class Complex(models.Model):
     address = models.TextField(max_length=256, verbose_name='Адрес', null=False, blank=False, default='')
     developer = models.ForeignKey('crm.Developer', verbose_name='Застройщик', null=True, blank=True, \
                                   on_delete=models.CASCADE, related_name='complexes')
+    near_metro = models.CharField(verbose_name='Ближайшее метро', \
+                                  null=True, max_length=256, default='', blank=True)
     description = models.TextField(verbose_name='Описание', blank=True, default='', null=False, max_length=2048)
     start_of_construction = models.CharField(blank=True, null=False, default='', max_length=16, verbose_name='Начало строительства')
     end_of_construction = models.CharField(blank=True, null=False, default='', verbose_name='Сдача', max_length=256)

@@ -6,14 +6,14 @@ var flag = false
 export default {
   namespaced: true,
   state: {
-    isLoading: false,
+    isLoading: [],
     data: [],
     isFinished: false,
     main: {},
     filterObj: {}
   },
   getters: {
-    isLoading: state => state.isLoading,
+    isLoading: state => state.isLoading.length,
     getData: state => state.data,
     isFinished: state => state.isFinished,
     getSubDev: (state) => {
@@ -38,7 +38,11 @@ export default {
   },
   mutations: {
     setLoader (state, status) {
-      state.isLoading = status
+      if (status) {
+        state.isLoading.push(true)
+      } else {
+        state.isLoading.pop()
+      }
     },
     setData (state, data) {
       if (counter === 0) {

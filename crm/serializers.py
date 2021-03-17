@@ -239,6 +239,7 @@ class MainComplexSerilizer(ModelSerializer):
             'end_of_construction',
             'start_of_construction',
             'object_class',
+            'near_metro',
             'count_lots',
             'premises_type',
             'count_floors',
@@ -285,17 +286,21 @@ class MainOldSerilizer(ModelSerializer):
     contacts = ContactsSerializer(many=True, read_only=True)
     links = LinkSerializer(many=True, read_only=True)
     files = FileSerializer(many=True)
+    complex = MainComplexSerilizer(read_only=True)
 
     class Meta:
         model = OldBuildingLot
         fields = (
             'id',
+            'complex',
             'updated_by',
             'updated_at',
             '__str__',
             'files',
             'contacts',
             'links',
+            'lease',
+            'url_plan',
             'images'
         )
 
@@ -306,15 +311,19 @@ class MainNewSerilizer(ModelSerializer):
     contacts = ContactsSerializer(many=True, read_only=True)
     links = LinkSerializer(many=True, read_only=True)
     files = FileSerializer(many=True)
+    complex = MainComplexSerilizer(read_only=True)
 
     class Meta:
         model = NewBuildingLot
         fields = (
             'id',
+            'complex',
             'updated_by',
             'updated_at',
             '__str__',
+            'url_plan',
             'files',
+            'lease',
             'contacts',
             'links',
             'images'
