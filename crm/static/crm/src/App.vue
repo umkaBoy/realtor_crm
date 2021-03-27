@@ -66,7 +66,11 @@ body::-webkit-scrollbar {
 }
 
 .block-1 {
-  width: 22%;
+  width: 25%;
+}
+
+.block-3 {
+  width: 50%;
 }
 
 .block-2 {
@@ -102,5 +106,9 @@ img {
 }
 .v-expansion-panel:before {
   box-shadow: none !important;
+}
+.body-container {
+  max-width: 100%;
+  overflow-x: hidden !important;
 }
 </style>

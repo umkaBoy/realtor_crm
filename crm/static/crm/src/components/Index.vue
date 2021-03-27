@@ -83,8 +83,12 @@ export default {
   methods: {
     toggleCLassOnBlock () {
       let block = this.$refs.block2
+      if (['newbuildinglot', 'oldbuildinglot'].includes(this.navigationR.type)) {
+        block.classList.toggle('block-3')
+      } else {
+        block.classList.toggle('block-1')
+      }
       block.classList.toggle('block-2')
-      block.classList.toggle('block-1')
     },
     setBlocksVisibility (b1 = true, b2 = true, b3 = false) {
       this.navigation.shown = b1

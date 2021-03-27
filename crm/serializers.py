@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 
 from crm.models import Developer, Complex, NewBuildingLot, OldBuildingLot, Image, Contacts, Region, \
-    ObjectClass, PremisesType, ConstructionTech, Link, Document
+    ObjectClass, PremisesType, ConstructionTech, Link, Document, Corp
 
 
 class ImageSerializer(ModelSerializer):
@@ -15,6 +15,14 @@ class ImageSerializer(ModelSerializer):
             'get_url'
         )
 
+class ShortCorpSerializer(ModelSerializer):
+
+    class Meta:
+        model = Corp
+        fields = (
+            'id',
+            'name'
+        )
 
 class LinkSerializer(ModelSerializer):
 
@@ -141,6 +149,7 @@ class ComplexesShortSerializer(ModelSerializer):
 
 class OldBuildingsShortSerializer(ModelSerializer):
     complex = ComplexSubSerializer()
+    corp = ShortCorpSerializer()
 
     class Meta:
         model = OldBuildingLot
@@ -149,6 +158,7 @@ class OldBuildingsShortSerializer(ModelSerializer):
             '__str__',
             'status',
             'floor',
+            'corp',
             's',
             'type_building',
             'price',
@@ -156,12 +166,14 @@ class OldBuildingsShortSerializer(ModelSerializer):
             'url_plan',
             'n_on_price',
             'floor',
-            'price_per_m'
+            'price_per_m',
+            'corp_name'
         )
 
 
 class NewBuildingsShortSerializer(ModelSerializer):
     complex = ComplexSubSerializer()
+    corp = ShortCorpSerializer()
 
     class Meta:
         model = NewBuildingLot
@@ -169,12 +181,14 @@ class NewBuildingsShortSerializer(ModelSerializer):
             'id',
             'price_per_m',
             'type_building',
+            'corp_name',
             'floor',
             '__str__',
             'n_on_price',
             'status',
             'floor',
             's',
+            'corp',
             'price',
             'complex',
             'url_plan'
@@ -287,12 +301,15 @@ class MainOldSerilizer(ModelSerializer):
     links = LinkSerializer(many=True, read_only=True)
     files = FileSerializer(many=True)
     complex = MainComplexSerilizer(read_only=True)
+    type_object = PremisesTypeSerializer(read_only=True)
+    corp = ShortCorpSerializer(read_only=True)
 
     class Meta:
         model = OldBuildingLot
         fields = (
             'id',
             'complex',
+            'corp',
             'updated_by',
             'updated_at',
             '__str__',
@@ -301,30 +318,17 @@ class MainOldSerilizer(ModelSerializer):
             'links',
             'lease',
             'url_plan',
-            'images'
-        )
-
-
-class MainNewSerilizer(ModelSerializer):
-    updated_by = ProfileSerializer(read_only=True)
-    images = ImageSerializer(many=True, read_only=True)
-    contacts = ContactsSerializer(many=True, read_only=True)
-    links = LinkSerializer(many=True, read_only=True)
-    files = FileSerializer(many=True)
-    complex = MainComplexSerilizer(read_only=True)
-
-    class Meta:
-        model = NewBuildingLot
-        fields = (
-            'id',
-            'complex',
-            'updated_by',
-            'updated_at',
-            '__str__',
-            'url_plan',
-            'files',
-            'lease',
-            'contacts',
-            'links',
-            'images'
+            'images',
+            'n_on_price',
+            'type_object',
+            'floor',
+            's',
+            'trim',
+            'view_from_windows',
+            'options',
+            'reward',
+            'price',
+            'currency',
+            'price_per_m',
+            'currency_per_m'
         )

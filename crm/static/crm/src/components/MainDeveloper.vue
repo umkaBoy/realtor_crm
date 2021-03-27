@@ -1,8 +1,8 @@
 <template>
-  <div style="height: 93vh; overflow: scroll">
+  <div style="height: 93vh; overflow: scroll" class="body-container">
     <v-row>
       <v-col
-        :md="7"
+        md="12"
         sm="12"
         cols="12">
         <v-card
@@ -45,41 +45,6 @@
             </p>
           </span>
         </v-card>
-        <v-card color="transparent">
-          <v-expansion-panels v-model="panels" multiple>
-            <v-expansion-panel v-show="developer.description">
-              <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
-                <h5 class="primary--text">Информация о застройщике</h5>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <p>{{ developer.description }}</p>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel v-if="developer.complexes" v-model="panels">
-              <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
-                <h5 class="primary--text">Объекты</h5>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-data-table
-                  dense
-                  :headers="headers"
-                  :items="developer.complexes"
-                  disable-sort
-                  hide-default-footer
-                  disable-pagination
-                  :items-per-page="developer.complexes.length"
-                  class="elevation-0"
-                >
-                </v-data-table>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-card>
-      </v-col>
-      <v-col
-        md="5"
-        sm="12"
-        cols="12">
         <v-card
           class="pa-1"
           outlined
@@ -95,7 +60,8 @@
             :delimiter-icon="icons.mdiCircleOutline"
             cycle
             show-arrows-on-hover
-            height="300">
+            style="width: auto; margin: auto"
+            height="350">
             <v-carousel-item
               v-for="(image) in developer.images"
               :key="image.id"
@@ -126,6 +92,36 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+        <v-card color="transparent">
+          <v-expansion-panels v-model="panels" multiple>
+            <v-expansion-panel v-show="developer.description">
+              <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+                <h5 class="primary--text">Информация о застройщике</h5>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>{{ developer.description }}</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel v-if="developer.complexes" v-model="panels">
+              <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+                <h5 class="primary--text">Объекты</h5>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-data-table
+                  dense
+                  :headers="headers"
+                  :items="developer.complexes"
+                  disable-sort
+                  hide-default-footer
+                  disable-pagination
+                  :items-per-page="developer.complexes.length"
+                  class="elevation-0"
+                >
+                </v-data-table>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card>
       </v-col>
     </v-row>
   </div>

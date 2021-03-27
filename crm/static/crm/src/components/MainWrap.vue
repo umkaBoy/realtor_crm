@@ -1,5 +1,5 @@
 <template>
-    <v-container style="padding-top: 0">
+  <div style="padding-top: 0">
     <v-row dense>
       <v-col cols="12" md="1" sm="12">
         <a href="#" @click.prevent="$emit('selectGroup'), removeSelectedItems()"><v-icon color="primary">{{ icons.mdiArrowLeft }}</v-icon></a>
@@ -18,7 +18,7 @@
     <complex v-if="type === 'complex'"></complex>
     <developer v-else-if="type === 'developer'"></developer>
     <lot v-else></lot>
-  </v-container>
+  </div>
 </template>
 
 <script>

@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.paginator import Paginator
 from crm.serializers import ProfileSerializer, ComplexesShortSerializer, OldBuildingsShortSerializer, \
-    NewBuildingsShortSerializer, MainDeveloperSerializer, MainComplexSerilizer, MainNewSerilizer, \
+    NewBuildingsShortSerializer, MainDeveloperSerializer, MainComplexSerilizer, \
     MainOldSerilizer
 from crm.models.complexes import Complex
 from crm.models.lots import OldBuildingLot, NewBuildingLot
@@ -85,7 +85,6 @@ class LoadDataRest(APIView):
 class LoadMainRest(APIView):
     ser_dev = MainDeveloperSerializer
     ser_com = MainComplexSerilizer
-    ser_new = MainNewSerilizer
     ser_old = MainOldSerilizer
 
     def post(self, request, *args, **kwargs):

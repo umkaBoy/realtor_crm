@@ -1,8 +1,8 @@
 <template>
-  <div style="height: 93vh; overflow: scroll">
+  <div style="height: 93vh; overflow: scroll" class="body-container">
     <v-row v-if="complex">
       <v-col
-        :md="7"
+        md="12"
         sm="12"
         cols="12">
         <v-card
@@ -14,6 +14,102 @@
           <span class="grey--text float-right"><strong> {{ complex.developer.name }} </strong></span>
           <span class="primary--text"><strong> {{ complex.region.name }}</strong> {{ complex.address }} </span>
         </v-card>
+        <v-card
+          class="pa-1"
+          outlined
+          color="transparent"
+          v-if="complex.images && complex.images.length"
+        >
+          <v-carousel
+            :show-arrows="complex.images.length > 1"
+            hide-delimiters
+            v-model="img"
+            :next-icon="icons.mdiMenuRight"
+            :prev-icon="icons.mdiMenuLeft"
+            :delimiter-icon="icons.mdiCircleOutline"
+            cycle
+            show-arrows-on-hover
+            style="width: auto; margin: auto"
+            height="350">
+            <v-carousel-item
+              v-for="(image) in complex.images"
+              :key="image.id"
+              :src="image.get_url"
+            >
+            </v-carousel-item>
+          </v-carousel>
+        </v-card>
+        <v-card
+          color="transparent"
+          class="pa-1"
+          outlined
+          v-if="complex.links && complex.links.length"
+        >
+          <v-chip
+            class="ma-2"
+            color="primary"
+            outlined
+            v-for="(link, i) in complex.links"
+            :key="i"
+            :href="link.link"
+            target="_blank"
+          >
+            {{ link.name }}
+          </v-chip>
+        </v-card>
+        <v-expansion-panels multiple>
+          <v-expansion-panel v-if="complex.contacts && complex.contacts.length" style="background-color: transparent !important;">
+            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+              <h5 class="primary--text text-right">Контакты</h5>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card
+                color="transparent"
+                class="pa-1"
+                outlined
+                :key="contact.id"
+                v-for="(contact) in complex.contacts"
+                v-if="complex.contacts && complex.contacts.length"
+              >
+                <h5 class="primary--text">{{contact.name}}</h5>
+                <a :href="`tel:${contact.phone}`" v-if="contact.phone">{{contact.phone}}<br></a>
+                <a :href="`mailto:${contact.email}`" v-if="contact.email">{{contact.email}}</a>
+                <p class="grey--text" v-if="contact.note">{{contact.note}}</p>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel v-if="complex.files && complex.files.length" style="background-color: transparent !important;">
+            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
+              <h5 class="primary--text text-right">Презентации и документы</h5>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card
+                color="transparent"
+                class="pa-1"
+                outlined
+                v-for="(type, i) in new Set(complex.files.map(obj => obj.type))"
+                :key="i"
+              >
+                <h4 class="primary--text">{{ type }}</h4>
+                <v-card
+                  color="transparent"
+                  class="pa-1"
+                  outlined
+                  v-for="(file, index) in complex.files.filter(obj => obj.type === type)"
+                  :key="index"
+                >
+                  <h5 v-if="file.name">{{ file.name }}</h5>
+                  <a :href="file.get_url">
+                    <span>{{file.filename}}</span>
+                  </a>
+                  <p class="grey--text">
+                    <span>{{ file.get_created_at }}</span> | <span>{{file.get_size}}</span>
+                  </p>
+                </v-card>
+              </v-card>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
         <v-card color="transparent">
           <v-expansion-panels multiple>
             <v-expansion-panel v-if="complex.description">
@@ -230,106 +326,6 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-card>
-      </v-col>
-      <v-col
-        md="5"
-        sm="12"
-        cols="12">
-        <v-card
-          class="pa-1"
-          outlined
-          color="transparent"
-          v-if="complex.images && complex.images.length"
-        >
-          <v-carousel
-            :show-arrows="complex.images.length > 1"
-            hide-delimiters
-            v-model="img"
-            :next-icon="icons.mdiMenuRight"
-            :prev-icon="icons.mdiMenuLeft"
-            :delimiter-icon="icons.mdiCircleOutline"
-            cycle
-            show-arrows-on-hover
-            height="300">
-            <v-carousel-item
-              v-for="(image) in complex.images"
-              :key="image.id"
-              :src="image.get_url"
-            >
-            </v-carousel-item>
-          </v-carousel>
-        </v-card>
-        <v-card
-          color="transparent"
-          class="pa-1"
-          outlined
-          v-if="complex.links && complex.links.length"
-        >
-          <v-chip
-            class="ma-2"
-            color="primary"
-            outlined
-            v-for="(link, i) in complex.links"
-            :key="i"
-            :href="link.link"
-            target="_blank"
-          >
-            {{ link.name }}
-          </v-chip>
-        </v-card>
-        <v-expansion-panels multiple>
-          <v-expansion-panel v-if="complex.contacts && complex.contacts.length" style="background-color: transparent !important;">
-            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
-              <h5 class="primary--text text-right">Контакты</h5>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-card
-                color="transparent"
-                class="pa-1"
-                outlined
-                :key="contact.id"
-                v-for="(contact) in complex.contacts"
-                v-if="complex.contacts && complex.contacts.length"
-              >
-                <h5 class="primary--text">{{contact.name}}</h5>
-                <a :href="`tel:${contact.phone}`" v-if="contact.phone">{{contact.phone}}<br></a>
-                <a :href="`mailto:${contact.email}`" v-if="contact.email">{{contact.email}}</a>
-                <p class="grey--text" v-if="contact.note">{{contact.note}}</p>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-          <v-expansion-panel v-if="complex.files && complex.files.length" style="background-color: transparent !important;">
-            <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">
-              <h5 class="primary--text text-right">Презентации и документы</h5>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-card
-                color="transparent"
-                class="pa-1"
-                outlined
-                v-for="(type, i) in new Set(complex.files.map(obj => obj.type))"
-                :key="i"
-              >
-                <h4 class="primary--text">{{ type }}</h4>
-                <v-card
-                  color="transparent"
-                  class="pa-1"
-                  outlined
-                  v-for="(file, index) in complex.files.filter(obj => obj.type === type)"
-                  :key="index"
-                >
-                  <h5 v-if="file.name">{{ file.name }}</h5>
-                  <a :href="file.get_url">
-                    <span>{{file.filename}}</span>
-                  </a>
-                  <p class="grey--text">
-                    <span>{{ file.get_created_at }}</span> | <span>{{file.get_size}}</span>
-                  </p>
-                </v-card>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
       </v-col>
     </v-row>
   </div>

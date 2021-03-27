@@ -63,6 +63,7 @@ export default {
         { text: '№', value: 'n_on_price' },
         { text: '', value: 'url_plan' },
         { text: 'Наименование', value: '__str__' },
+        { text: 'Корпус', value: 'corp_name' },
         { text: 'Этаж', value: 'floor' },
         { text: 'Площадь', value: 's' },
         { text: 'цена, ₽', value: 'price' },

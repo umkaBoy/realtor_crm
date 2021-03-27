@@ -53,6 +53,16 @@ class Lot(models.Model):
                 pass
         return ''
 
+    @property
+    def currency_per_m(self):
+        if self.s and self.currency:
+            try:
+                return self.currency / self.s
+            except:
+                pass
+        return ''
+
+
 
 class Plan(models.Model):
     name = models.CharField(verbose_name='Название', null=True, blank=False, default='', max_length=64)
@@ -108,6 +118,12 @@ class NewBuildingLot(Lot):
     def type_building(self):
         return 'newbuildinglot'
 
+    @property
+    def corp_name(self):
+        if self.corp:
+            return self.corp.name
+        return ''
+
 
 class OldBuildingLot(Lot):
     corp = models.ForeignKey('crm.Corp', verbose_name='Корпус', null=True, blank=True, on_delete=models.CASCADE)
@@ -122,3 +138,9 @@ class OldBuildingLot(Lot):
     @property
     def type_building(self):
         return 'oldbuildinglot'
+
+    @property
+    def corp_name(self):
+        if self.corp:
+            return self.corp.name
+        return ''
