@@ -368,4 +368,7 @@ export default {
 .v-sheet {
   box-shadow: none;
 }
+.v-image__image--cover {
+  background-size: contain;
+}
 </style>
