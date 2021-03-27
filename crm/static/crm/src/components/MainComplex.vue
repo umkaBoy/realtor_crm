@@ -34,8 +34,8 @@
             <v-carousel-item
               v-for="(image) in complex.images"
               :key="image.id"
-              :src="image.get_url"
             >
+              <v-img :src="image.get_url" contain height="350"></v-img>
             </v-carousel-item>
           </v-carousel>
         </v-card>
@@ -367,8 +367,5 @@ export default {
 <style scoped>
 .v-sheet {
   box-shadow: none;
-}
-.v-image__image--cover {
-  background-size: contain;
 }
 </style>
