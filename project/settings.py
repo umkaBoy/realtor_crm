@@ -32,6 +32,12 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+EMAIL_HOST_USER = 'info@crm.ru'
+AUTHENTICATION_FAILED_ATTEMPTS_CACHE_KEY = None
+AUTHENTICATION_FAILED_ATTEMPTS_CACHE_STORE_TIMEOUT = 1800
+AUTHENTICATION_FAILED_ATTEMPTS_LIMIT = 10
+AUTHENTICATION_BACKENDS = ['crm.utils.backends.CustomModelBackend']
+LOGIN_URL = '/login'
 
 INSTALLED_APPS = [
     'django.contrib.contenttypes',

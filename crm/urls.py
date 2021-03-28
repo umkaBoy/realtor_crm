@@ -5,10 +5,15 @@ from project import settings
 from crm.views import base, rest
 from crm.views import auth
 
+def l(class_view):
+    return login_required(class_view.as_view(), redirect_field_name='login')
+
 urlpatterns = [
-    re_path('logout', auth.LogoutView.as_view(), name='logout'),
-    path('rest/profile', login_required(rest.ProfileRest.as_view()) ,name='rest_profile'),
-    path('rest/load-data', login_required(rest.LoadDataRest.as_view()) ,name='load_data_rest'),
-    path('rest/load-main', login_required(rest.LoadMainRest.as_view()) ,name='load_main_rest'),
-    path('', login_required(base.BaseView.as_view()), name='base')
+    path('logout', l(auth.LogoutView), name='logout'),
+    path('login', auth.LoginView.as_view(), name='login'),
+    path('password_reset/request', auth.PasswordResetRequestView.as_view(), name='password_reset_request'),
+    path('rest/profile', l(rest.ProfileRest), name='rest_profile'),
+    path('rest/load-data', l(rest.LoadDataRest), name='load_data_rest'),
+    path('rest/load-main', l(rest.LoadMainRest), name='load_main_rest'),
+    path('', l(base.BaseView), name='base')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
