@@ -1,7 +1,7 @@
 import * as pageApi from '@/api/Page'
 var counter = 0
+var subCounter = 0
 var dataPage = null
-var flag = false
 
 export default {
   namespaced: true,
@@ -10,31 +10,18 @@ export default {
     data: [],
     isFinished: false,
     main: {},
-    filterObj: {}
+    filterObj: {},
+    sub: [],
+    //  sub
+    isSubFinished: false
   },
   getters: {
     isLoading: state => state.isLoading.length,
     getData: state => state.data,
     isFinished: state => state.isFinished,
-    getSubDev: (state) => {
-      try {
-        return state.data.map(item => item.developer).filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
-        })
-      } catch (err) {
-        return []
-      }
-    },
-    getSubComp: (state) => {
-      try {
-        return state.data.map(item => item.complex).filter((obj, pos, arr) => {
-          return arr.map(mapObj => mapObj.id).indexOf(obj.id) === pos
-        })
-      } catch (err) {
-        return []
-      }
-    },
-    getMain: state => state.main
+    isSubFinished: state => state.isSubFinished,
+    getMain: state => state.main,
+    getSub: state => state.sub
   },
   mutations: {
     setLoader (state, status) {
@@ -58,6 +45,15 @@ export default {
     },
     setFilter (state, data) {
       state.filterObj = data
+    },
+    setSub (state, data) {
+      if (subCounter === 0) {
+        state.sub = data
+        state.isSubFinished = false
+      } else {
+        if (!data.length || data.length < 15) state.isSubFinished = true
+        state.sub.push(...data)
+      }
     }
   },
   actions: {
@@ -73,8 +69,6 @@ export default {
     async load ({ dispatch, commit, state }, {page}) {
       dispatch('Page/loading', {flag: true}, {root: true})
       try {
-        if (!flag) flag = true
-        else return null
         if (dataPage !== page) {
           dataPage = page
           counter = 0
@@ -84,7 +78,6 @@ export default {
         const data = await pageApi.loadData(counter, page, state.filterObj)
         counter++
         commit('setData', data)
-        flag = false
       } catch (e) {
         dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить список объектов', timeout: 5000 }, { root: true })
       } finally {
@@ -110,6 +103,28 @@ export default {
         dispatch('Page/load', {page: copyPage}, {root: true})
       } catch (e) {
         console.log('Не удалось отфильтровать')
+      }
+    },
+    async subload ({ dispatch, commit, state }, {page}) {
+      dispatch('Page/loading', {flag: true}, {root: true})
+      try {
+        if (dataPage !== page) {
+          subCounter = 0
+          commit('setSub', [])
+          subCounter++
+        }
+        if (page === 'complexes') {
+          page = 'developers'
+        } else if (page === 'lots') {
+          page = 'complexes'
+        }
+        const data = await pageApi.loadData(subCounter, page)
+        subCounter++
+        commit('setSub', data)
+      } catch (e) {
+        dispatch('Alert/add', { type: 'error', text: 'Не удалось загрузить список объектов', timeout: 5000 }, { root: true })
+      } finally {
+        dispatch('Page/loading', {flag: false, timeout: 300}, {root: true})
       }
     }
   }

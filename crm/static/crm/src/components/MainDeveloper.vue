@@ -6,7 +6,7 @@
         sm="12"
         cols="12">
         <v-card
-          class="pa-1"
+          class="pa-3"
         >
           <h3>Застройщик {{ developer.name }}</h3> <br>
           <span class="grey--text">Дата основания: {{ developer.created_at }}</span>

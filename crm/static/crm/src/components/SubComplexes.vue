@@ -1,10 +1,9 @@
 <template>
-  <div style="height: 93vh; overflow: scroll">
+  <div style="height: 95vh; overflow: scroll" ref="subscroll">
     <v-data-table
       :headers="headers"
       :items="complexes"
       hide-default-footer
-      hide-default-header
       item-key="id"
       v-model="selected"
       @click:row="selectItems($event.id), selected = [$event]"
@@ -21,25 +20,45 @@
         <a href="#" @click.prevent="$emit('selectGroup')" class="float-right">{{ item.count_lots_in_sale }} лотов</a>
       </template>
     </v-data-table>
+    <div>
+      <mugen-scroll
+        :handler="fetchData"
+        :should-handle="!loading"
+        scrollContainer="subscroll"
+        v-if="!isFinished"
+        class="text-center">
+        Загрузка...
+      </mugen-scroll>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import MugenScroll from 'vue-mugen-scroll'
 
 export default {
   name: 'SubComplexes',
+  components: {
+    'mugen-scroll': MugenScroll
+  },
   data () {
     return {
       selected: [],
+      loading: false,
+      counter: 30,
       headers: [
-        { text: 'Наименование', value: 'name' },
-        { text: 'количество лотов', value: 'count_lots_in_sale' }
+        { text: 'Имя', value: 'name' },
+        { text: 'Число лотов', value: 'count_lots_in_sale' }
       ]
     }
   },
   computed: {
-    ...mapGetters('Page', {complexes: 'getSubComp'})
+    ...mapGetters('Page', {complexes: 'getSub'}),
+    ...mapGetters('Page', {isFinished: 'isSubFinished'})
+  },
+  created () {
+    this.fetchData()
   },
   methods: {
     selectItems (id) {
@@ -52,6 +71,18 @@ export default {
         item.closest('tr').classList.add('v-data-table__selected')
       })
       items[0].scrollIntoView()
+    },
+    fetchData () {
+      this.loading = true
+      this.$store.dispatch('Page/subload', {
+        page: this.$route.name
+      }, {
+        root: true
+      })
+      setTimeout(() => {
+        this.counter = this.complexes.length
+        this.loading = false
+      }, 10)
     }
   }
 }

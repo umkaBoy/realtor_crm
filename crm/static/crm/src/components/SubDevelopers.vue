@@ -1,10 +1,9 @@
 <template>
-  <div style="height: 93vh; overflow: scroll">
+  <div style="height: 95vh; overflow: scroll" ref="subscroll">
     <v-data-table
       :headers="headers"
       :items="developers"
       hide-default-footer
-      hide-default-header
       item-key="id"
       disable-pagination
       disable-sort
@@ -21,25 +20,45 @@
         <a href="#" @click.prevent="$emit('selectGroup')" class="float-right">{{ item.count_complexes}} жк</a>
       </template>
     </v-data-table>
+    <div>
+      <mugen-scroll
+        :handler="fetchData"
+        :should-handle="!loading"
+        scrollContainer="subscroll"
+        v-if="!isFinished"
+        class="text-center">
+        Загрузка...
+      </mugen-scroll>
+    </div>
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import MugenScroll from 'vue-mugen-scroll'
 
 export default {
   name: 'SubDevelopers',
+  components: {
+    'mugen-scroll': MugenScroll
+  },
   data () {
     return {
       selected: [],
+      loading: false,
+      counter: 30,
       headers: [
-        { text: 'Наименование', value: 'name' },
-        { text: 'количество жк', value: 'count_complexes' }
+        { text: 'Имя', value: 'name' },
+        { text: 'Число ЖК', value: 'count_complexes' }
       ]
     }
   },
   computed: {
-    ...mapGetters('Page', {developers: 'getSubDev'})
+    ...mapGetters('Page', {developers: 'getSub'}),
+    ...mapGetters('Page', {isFinished: 'isSubFinished'})
+  },
+  created () {
+    this.fetchData()
   },
   methods: {
     selectItems (id) {
@@ -52,6 +71,18 @@ export default {
         item.closest('tr').classList.add('v-data-table__selected')
       })
       items[0].scrollIntoView()
+    },
+    fetchData () {
+      this.loading = true
+      this.$store.dispatch('Page/subload', {
+        page: this.$route.name
+      }, {
+        root: true
+      })
+      setTimeout(() => {
+        this.counter = this.developers.length
+        this.loading = false
+      }, 10)
     }
   }
 }

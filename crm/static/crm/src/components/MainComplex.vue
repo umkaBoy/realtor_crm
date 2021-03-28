@@ -7,7 +7,7 @@
         cols="12">
         <v-card
           min-height="70"
-          class="pa-1"
+          class="pa-3"
         >
           <h3> {{ complex.name }} </h3>
           <br>

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator
 from crm.serializers import ProfileSerializer, ComplexesShortSerializer, OldBuildingsShortSerializer, \
     NewBuildingsShortSerializer, MainDeveloperSerializer, MainComplexSerilizer, \
-    MainOldSerilizer
+    MainOldSerilizer, DeveloperSubSerializer
 from crm.models.complexes import Complex
 from crm.models.lots import OldBuildingLot, NewBuildingLot
 from crm.models.developers import Developer
@@ -26,6 +26,7 @@ class LoadDataRest(APIView):
     ser = OldBuildingsShortSerializer
     ser1 = NewBuildingsShortSerializer
     ser2 = ComplexesShortSerializer
+    ser3 = DeveloperSubSerializer
 
     def is_empty(self, value):
         return value == None or value == '' or value == []
@@ -41,6 +42,9 @@ class LoadDataRest(APIView):
         counter = request.data.get('counter')
         filter = request.data.get('filter')
 
+
+        if page == 'developers':
+            objs = Developer.objects.all().order_by('name')
         if page == 'complexes':
             objs = Complex.objects.all().order_by('developer')
         if page == 'lots':
@@ -79,6 +83,8 @@ class LoadDataRest(APIView):
             ser_data = self.ser2(data_page, many=True)
         if page == 'lots':
             ser_data = self.ser1(data_page, many=True)
+        if page == 'developers':
+            ser_data = self.ser3(data_page, many=True)
         return Response(ser_data.data)
 
 

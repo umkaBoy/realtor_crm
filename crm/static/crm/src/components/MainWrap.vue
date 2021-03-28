@@ -4,8 +4,8 @@
       <v-col cols="12" md="1" sm="12">
         <a href="#" @click.prevent="$emit('selectGroup'), removeSelectedItems()"><v-icon color="primary">{{ icons.mdiArrowLeft }}</v-icon></a>
       </v-col>
-      <v-col cols="12" md="3" sm="12" v-if="id !== null && (user.is_superuser || user.is_staff)">
-        <a :href="`/admin/crm/${type}/${id}/change/`" target="_blank">
+      <v-col cols="12" md="3" sm="12">
+        <a :href="`/admin/crm/${type}/${id}/change/`" target="_blank" v-if="id !== null && (user.is_superuser || user.is_staff)">
           <strong>Редактировать</strong>
         </a>
       </v-col>

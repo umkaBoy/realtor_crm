@@ -3,9 +3,9 @@ from django.forms import fields
 
 
 class LoginForm(Form):
-    email = fields.EmailField(
+    email = fields.CharField(
         required=True,
-        label='E-mail'
+        label='Имя пользователя'
     )
     password = fields.CharField(
         required=True,
@@ -14,7 +14,7 @@ class LoginForm(Form):
 
 
 class PasswordResetRequestForm(Form):
-    email = fields.EmailField(
+    email = fields.CharField(
         required=True,
         label='E-mail'
     )
