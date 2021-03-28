@@ -82,7 +82,7 @@
             outlined
             v-for="(link, i) in developer.links"
             :key="i"
-            :href="link.link"
+            :href="'//' + link.link"
             target="_blank"
           >
             {{ link.name }}
