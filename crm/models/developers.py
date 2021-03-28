@@ -6,7 +6,7 @@ class Developer(models.Model):
     updated_by = models.ForeignKey(User, verbose_name='Кем изменена', on_delete=models.SET_NULL, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=False, verbose_name='Дата изменения')
     name = models.CharField(verbose_name='Наименование', unique=True, blank=False, null=False, max_length=128, default='')
-    created_at = models.CharField(null=False, default='', blank=True, verbose_name='Дата основания', max_length=64)
+    created_at = models.CharField(null=True, default='', blank=True, verbose_name='Дата основания', max_length=64)
     description = models.TextField(verbose_name='Описание', blank=True, null=False, default='', max_length=2048)
     objects_delivered = models.IntegerField(verbose_name='Сдано объектов', blank=False, null=True)
     objects_under_construction = models.IntegerField(verbose_name='Объектов строится', blank=False, null=True)
