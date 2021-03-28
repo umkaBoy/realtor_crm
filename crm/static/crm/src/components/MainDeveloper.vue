@@ -61,12 +61,12 @@
             cycle
             show-arrows-on-hover
             style="width: auto; margin: auto"
-            height="150">
+            height="100">
             <v-carousel-item
               v-for="(image) in developer.images"
               :key="image.id"
             >
-              <v-img :src="image.get_url" contain height="150"></v-img>
+              <v-img :src="image.get_url" contain height="100"></v-img>
             </v-carousel-item>
           </v-carousel>
         </v-card>
@@ -82,7 +82,7 @@
             outlined
             v-for="(link, i) in developer.links"
             :key="i"
-            :href="'//' + link.link"
+            :href="'http://' + link.link"
             target="_blank"
           >
             {{ link.name }}
