@@ -49,7 +49,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='developer',
             name='created_at',
-            field=models.CharField(null=True, verbose_name='Дата основания'),
+            field=models.CharField(blank=True, null=True, default='', max_length=64, verbose_name='Дата основания'),
         ),
         migrations.CreateModel(
             name='OldBuildingLot',

@@ -80,11 +80,6 @@ class Migration(migrations.Migration):
         ),
         migrations.AlterField(
             model_name='developer',
-            name='created_at',
-            field=models.CharField(blank=True, default='', max_length=64, verbose_name='Дата основания'),
-        ),
-        migrations.AlterField(
-            model_name='developer',
             name='updated_by',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Кем изменена'),
         ),
