@@ -70,6 +70,24 @@
             </v-carousel-item>
           </v-carousel>
         </v-card>
+        <v-card
+          color="transparent"
+          class="pa-1"
+          outlined
+          v-if="developer.links && developer.links.length"
+        >
+          <v-chip
+            class="ma-2"
+            color="primary"
+            outlined
+            v-for="(link, i) in developer.links"
+            :key="i"
+            :href="link.link"
+            target="_blank"
+          >
+            {{ link.name }}
+          </v-chip>
+        </v-card>
         <v-expansion-panels multiple>
           <v-expansion-panel v-if="developer.contacts && developer.contacts.length" style="background-color: transparent !important;">
             <v-expansion-panel-header :expand-icon="icons.mdiChevronDown">

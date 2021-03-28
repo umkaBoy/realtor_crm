@@ -201,6 +201,7 @@ class MainDeveloperSerializer(ModelSerializer):
     description = serializers.SerializerMethodField()
     contacts = ContactsSerializer(many=True, read_only=True)
     complexes = ComplexesShortSerializer(many=True, read_only=True)
+    links = LinkSerializer(many=True, read_only=True)
 
     def get_description(self, instance):
         from django.utils.safestring import mark_safe
@@ -211,6 +212,7 @@ class MainDeveloperSerializer(ModelSerializer):
         fields = (
             'id',
             'contacts',
+            'links',
             'updated_by',
             'updated_at',
             'name',

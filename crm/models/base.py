@@ -79,7 +79,7 @@ class Link(models.Model):
     link = models.CharField(verbose_name='Ссылка', max_length=128, null=False, blank=True, default='')
     complex = models.ForeignKey('crm.Complex', verbose_name='ЖК', related_name='links', null=True, on_delete=models.CASCADE)
     lot = models.ForeignKey('crm.Lot', verbose_name='Лот', related_name='links', null=True, on_delete=models.CASCADE)
-    developer = models.ForeignKey('crm.Developer', verbose_name='застройщик', null=True, on_delete=models.CASCADE)
+    developer = models.ForeignKey('crm.Developer', verbose_name='застройщик', related_name='links', null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Ссылка'
