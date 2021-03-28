@@ -70,7 +70,9 @@ export default {
       items.forEach(item => {
         item.closest('tr').classList.add('v-data-table__selected')
       })
-      items[0].scrollIntoView()
+      items[0].scrollIntoView({
+        behavior: 'smooth'
+      })
     },
     fetchData () {
       this.loading = true
