@@ -61,12 +61,12 @@
             cycle
             show-arrows-on-hover
             style="width: auto; margin: auto"
-            height="350">
+            height="150">
             <v-carousel-item
               v-for="(image) in developer.images"
               :key="image.id"
             >
-              <v-img :src="image.get_url" contain height="350"></v-img>
+              <v-img :src="image.get_url" contain height="150"></v-img>
             </v-carousel-item>
           </v-carousel>
         </v-card>
