@@ -179,9 +179,7 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     'whitelist_parsing': {
         'task': 'crm.tasks.whitelist_parsing',
-        'schedule': crontab(
-            hour=2,
-        ),
+        'schedule': crontab(),
     },
 }
 
