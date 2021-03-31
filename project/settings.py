@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from split_settings.tools import include, optional
 from django.utils.translation import ugettext_lazy as _
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -160,6 +161,29 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+
+# Celery
+BROKER_URL = 'redis://localhost:6379/2'
+RESULT_BACKEND = 'redis://localhost:6379/3'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
+
+CELERY_IMPORTS = (
+    'crm.tasks',
+)
+
+CELERYBEAT_SCHEDULE = {
+    'whitelist_parsing': {
+        'task': 'crm.tasks.whitelist_parsing',
+        'schedule': crontab(
+            hour=2,
+        ),
+    },
+}
 
 
 # Static files (CSS, JavaScript, Images)
